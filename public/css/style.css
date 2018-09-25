@@ -1,0 +1,219 @@
+/* charset="UTF-8" */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+.lf{
+    float: left;
+}
+.rf{
+    float: right;
+}
+body{
+    font-family: Lantinghei SC,Microsoft YaHei;
+    font-size: 14px;
+}
+.header{
+    border-bottom: 1px solid #e6e6e6;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 5px;
+    background: #000;
+}
+.head-cont{
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+}
+.head-logo h1{
+    display: none;
+}
+.head-logo span{
+    font-size: 18px;
+    font-weight: bolder;
+    letter-spacing: 5px;
+    color: #bdabab;
+}
+.head-logo strong{
+    color: #fff;
+}
+/* .head-menu a{
+    display: inline-block;
+    padding: 0 20px;
+    color: #333;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 20px;
+} */
+.head-user span{
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 15px;
+    background: #f2f2f2;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
+}
+.head-user span:active{
+    background: #000;
+    color: #fff;
+}
+.search{
+    background: #f2f2f2;
+    padding: 30px 10px;
+}
+.search .search-cont,.search .notice{
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+}
+.search .search-cont{
+    display: flex;
+}
+.search .search-cont input{
+    padding: 0 5px;
+    border: 1px solid #e5e6e7;
+    box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
+    width: 80%;
+    height: 35px;
+}
+.search .search-cont input:focus {
+    outline:none;
+    border: 1px solid rgba(47, 250, 108, 0.09);
+    box-shadow: 0 0 10px rgba(47, 250, 108, 0.18);
+}    
+.search .search-cont button{
+    padding: 0 5px;
+    border: 1px solid #e5e6e7;
+    background: #dbddde;
+    box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
+    outline: none;
+    width: 20%;
+    height: 35px;
+    cursor: pointer;
+}
+.search .search-cont button:active{
+    background: #ccc;
+    color: #fff;
+}
+.search .notice{
+    height: 20px;
+    line-height: 25px;
+    overflow: hidden;
+    padding-left: 22px;
+    position: relative;
+}
+.search .notice p{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #fb0c0c;
+}
+.search .notice::before{
+    content: '';
+    background-image: url('../img/notice.png');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 0;
+    top: 5px;
+}
+.bodyer{
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 5px;
+}
+.list{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.5%;
+}
+.list a{
+    display: block;
+    width: 24%;
+    margin: 0.5%;
+    padding: 2px;
+    border: 1px solid #eee;
+}
+.list a img{
+    width: 100%;
+}
+.list a strong{
+    display: block;
+    background: #fff;
+    padding: 5px;
+    color: #666;
+}
+
+/* 登入框 */
+.mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(63, 63, 63, 0.25);
+    display: none;
+}
+.modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 360px;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    box-shadow: 0 0 8px rgba(33, 28, 28, 0.17);
+    padding: 30px 2%;
+    z-index: 1000;
+    display: none;
+}
+.modal-body input{
+    height: 35px;
+    border: 1px solid #e5e6e7;
+    box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
+    border-radius: 3px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 5px;
+}
+.modal-foot button{
+    width: 100%;
+    border-radius: 3px;
+    height: 35px;
+    background: #c7723b;
+    border: 0;
+    color: #fff;
+    font-size: 16px;
+    box-shadow: 0 0 3px rgba(37, 36, 36, 0.14);
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.modal-foot p{
+    text-align: center;
+    font-size: 14px;
+}
+.modal-foot p span{
+    cursor: pointer;
+}
+.mobal-search{
+    display: none;
+}
+.modal .close{
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    color: rgba(255, 0, 0, 0.934);
+    cursor: pointer;
+}

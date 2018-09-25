@@ -1,0 +1,53 @@
+doctype html 5
+html
+    head
+        meta(charset="utf-8")
+        meta(name="viewport", content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover")
+        meta(name="aplus-terminal", content="1")
+        meta(name="data-spm", content="a2141")
+        meta(name="aplus-mmstat-timeout", content="10000")
+        meta(name="keywords", content=pageKeyword)
+        meta(name="description", content='#{pageDescrition}')
+        meta(name="theme-color", content="#ff5000")
+        meta(name="format-detection", content="telephone=no")
+        meta(name="apple-mobile-web-app-title", content="#{pageTitle}")
+        meta(name="application-name", content="#{pageTitle}")
+        meta(name="apple-mobile-web-app-status-bar-style", content="black")
+        title=pageTitle
+        link(rel='stylesheet', href='./css/style.css')
+    body
+        div.header
+            div.head-cont
+                div.head-logo.lf
+                    h1=pageKeyword
+                    a(href="http://www.llh8.cn", target="_blank", title="永久访问地址")
+                        span 永久域名|
+                        //- br
+                        strong WWW.BAIDU.COM
+                //- div.head-menu.lf
+                //-     each item in menuList
+                //-         a(href="#{item.url}", title="#{item.title}在线列表") #{item.title}
+                div.head-user.rf
+                    span(onclick="showMOdel('login')") 登入
+                    span(onclick="showMOdel('register')") 注册
+        div.search
+            div.search-cont
+                input(type="text", placeholder="搜索-有你想要")
+                button 搜&nbsp;&nbsp;索
+            div.notice
+                each item in marqueeList
+                    p=item
+        div.bodyer
+            div.list
+                each item in listData
+                    a(href="", title="#{item.title}在线观看")
+                        img(src="#{item.img}", alt="#{item.title}")
+                        strong #{item.title}
+        div.recommend
+            | 这里是推荐      
+        div.footer
+            | 欢迎来到
+            a(href="http://llh8.cn", title="")
+                strong WWW.BAIDU.COM
+        div#mask.mask
+        script(src="./js/common.js")
