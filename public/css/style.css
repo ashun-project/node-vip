@@ -14,7 +14,7 @@ a{
     float: right;
 }
 body{
-    font-family: Lantinghei SC,Microsoft YaHei;
+    font-family: Microsoft YaHei;
     font-size: 14px;
 }
 .header{
@@ -61,6 +61,9 @@ body{
     border-radius: 2px;
     box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
 }
+.head-user span:hover{
+    color: rgb(78, 64, 64);
+}
 .head-user span:active{
     background: #000;
     color: #fff;
@@ -82,7 +85,7 @@ body{
     border: 1px solid #e5e6e7;
     box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
     width: 80%;
-    height: 35px;
+    height: 40px;
 }
 .search .search-cont input:focus {
     outline:none;
@@ -96,8 +99,12 @@ body{
     box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
     outline: none;
     width: 20%;
-    height: 35px;
+    height: 40px;
     cursor: pointer;
+    font-size: 14px;
+}
+.search .search-cont button:hover{
+    color: rgb(103, 98, 98);
 }
 .search .search-cont button:active{
     background: #ccc;
@@ -107,10 +114,17 @@ body{
     height: 20px;
     line-height: 25px;
     overflow: hidden;
-    padding-left: 22px;
     position: relative;
 }
+.search .notice #notice-cont{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 22px;
+    transition: all 0.8s;
+}
 .search .notice p{
+    width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -143,7 +157,10 @@ body{
     width: 24%;
     margin: 0.5%;
     padding: 2px;
+    padding-bottom: 30px;
     border: 1px solid #eee;
+    position: relative;
+    overflow: hidden;
 }
 .list a img{
     width: 100%;
@@ -151,10 +168,69 @@ body{
 .list a strong{
     display: block;
     background: #fff;
-    padding: 5px;
+    width: 100%;
     color: #666;
+    font-weight: normal;
+    position: absolute;
+    bottom: 0;
+    max-height: 30px;
+    padding: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* transition: all .8s linear; */
 }
-
+.list a:hover{
+    border: 1px solid rgb(231, 230, 230);
+}
+.list a:hover strong{
+    max-height: 100px;
+    transform: scaleY(1.1);
+    white-space: pre-wrap;
+}
+.recommend{
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid #f2f2f2;
+}
+.recommend h5{
+    background: #f2f2f2;
+    line-height: 35px;
+    padding-left: 10px;
+    font-size: 14px;
+    font-weight: normal;
+}
+.recommend li{
+    display: inline-block;
+    width: 50%;
+    padding-left: 5px;
+    border-top: 1px solid #f2f2f2;
+    line-height: 35px;
+}
+.recommend li a {
+    color: #c73b3b;
+}
+.recommend li a:active, .recommend li a:hover{
+    color: #f07d7d;
+}
+.recommend li a span{
+    color: #333;
+}
+.footer{
+    /* padding: 50px 0;*/
+    margin-top: 20px; 
+    line-height: 40px;
+    border-top: 1px solid #f2f2f2;
+    /* background: #f1f1f1; */
+    text-align: center;
+}
+.footer a{
+    color: #c73b3b;
+}
+.footer strong{
+    
+}
 /* 登入框 */
 .mask{
     position: fixed;
@@ -170,35 +246,56 @@ body{
     position: fixed;
     top: 50%;
     left: 50%;
-    max-width: 360px;
-    width: 90%;
+    max-width: 420px;
+    width: 95%;
     transform: translate(-50%, -50%);
     background: #fff;
-    box-shadow: 0 0 8px rgba(33, 28, 28, 0.17);
-    padding: 30px 2%;
+    box-shadow: 0 0 80px rgba(33, 28, 28, 0.33);
+    padding: 30px 3%;
     z-index: 1000;
+    border-radius: 2px;
     display: none;
 }
+.modal-tite{
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    background: linear-gradient(to right, rgb(250, 4, 4), rgb(5, 5, 248));
+    letter-spacing: 2px;
+    -webkit-background-clip: text;
+    color: transparent;
+}
 .modal-body input{
-    height: 35px;
+    height: 40px;
     border: 1px solid #e5e6e7;
     box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
     border-radius: 3px;
     width: 100%;
     margin-top: 20px;
     padding: 5px;
+    outline: none;
 }
+.modal-body input:focus {
+    outline:none;
+    border: 1px solid rgba(47, 250, 108, 0.09);
+    box-shadow: 0 0 10px rgba(47, 250, 108, 0.18);
+}  
 .modal-foot button{
     width: 100%;
     border-radius: 3px;
-    height: 35px;
+    height: 40px;
     background: #c7723b;
+    background: linear-gradient(to right, rgb(245, 66, 66), rgb(61, 61, 248));
     border: 0;
     color: #fff;
     font-size: 16px;
     box-shadow: 0 0 3px rgba(37, 36, 36, 0.14);
     margin-top: 30px;
     margin-bottom: 10px;
+    outline: none;
+}
+.modal-foot button:active{
+    background: linear-gradient(to right, rgb(236, 50, 50), rgb(48, 48, 228));
 }
 .modal-foot p{
     text-align: center;
@@ -215,5 +312,8 @@ body{
     top: 8px;
     right: 20px;
     color: rgba(255, 0, 0, 0.934);
+    background: linear-gradient(to right, rgb(250, 4, 4), rgb(5, 5, 248));
+    -webkit-background-clip: text;
+    color: transparent;
     cursor: pointer;
 }

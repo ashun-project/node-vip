@@ -35,14 +35,32 @@ router.get('/', function(req,res) {
     //     });
     // })
     var list = [
-        {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
+        {url: 'www.baidu.com', createDate: '132', title: '有你喜欢有你喜欢有你喜欢有你喜欢有你喜欢有你喜欢', img: './img/aa.png'},
         {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
         {url: 'www.baidu.com', createDate: '132', title: '真的吗', img: './img/aa.png'},
         {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
         {url: 'www.baidu.com', createDate: '132', title: '征服世界', img: './img/aa.png'},
         {url: 'www.baidu.com', createDate: '132', title: '天下有你', img: './img/aa.png'}
+    ];
+    var recommend =[
+        {name: '萝莉', list: [
+            {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '真的吗', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '征服世界', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '天下有你', img: './img/aa.png'}
+        ]},
+        {name: '热门', list: [
+            {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '真的吗', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '有你喜欢', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '征服世界', img: './img/aa.png'},
+            {url: 'www.baidu.com', createDate: '132', title: '天下有你', img: './img/aa.png'}
+        ]}
     ]
-    res.render('index',{pageTitle:'使用示例', pageKeyword: '你/萝莉红吧,萝莉', pageDescrition: '萝莉红吧', layout:false, listData: list, menuList: menuList, marqueeList: marqueeList});
+    res.render('index',{pageTitle:'使用示例', pageKeyword: '你/萝莉红吧,萝莉', pageDescrition: '萝莉红吧', layout:false, listData: list, menuList: menuList, marqueeList: marqueeList, recommend: recommend});
 });
 
 module.exports = router;

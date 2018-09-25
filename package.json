@@ -1,0 +1,26 @@
+{
+  "name": "vip",
+  "version": "1.0.0",
+  "description": "this is vip",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashun-project/node-vip.git"
+  },
+  "keywords": [
+    "ashun"
+  ],
+  "author": "ashun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashun-project/node-vip/issues"
+  },
+  "homepage": "https://github.com/ashun-project/node-vip#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "jade": "^1.11.0"
+  }
+}
