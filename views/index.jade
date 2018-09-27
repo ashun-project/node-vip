@@ -14,7 +14,7 @@ html
         meta(name="application-name", content="#{pageTitle}")
         meta(name="apple-mobile-web-app-status-bar-style", content="black")
         title=pageTitle
-        link(rel='stylesheet', href='./css/style.css')
+        link(rel="stylesheet", type="text/css", href="#{host}/css/style.css")
     body
         div.header
             div.head-cont
@@ -40,23 +40,29 @@ html
                         p=item
         div.bodyer
             div.list
-                each item in listData
-                    a(href="", title="#{item.title}在线观看")
-                        img(src="#{item.img}", alt="#{item.title}")
-                        strong #{item.title}
+                -if(listData.length)
+                    each item in listData
+                        a(href="#{host+'/'+item.createTime}", title="#{item.title}在线观看")
+                            img(src="#{item.img}", alt="#{item.title}")
+                            strong #{item.title.replace(/[在线]|【在线】/, '')}
+                -else
+                    a(href="#{host}", class="no-more" title="返回首页") 没有查询到数据，返回首页？
+        div.page
+            each item in page
+                -if(item.active)
+                    span(class="#{item.active}") #{item.label}
+                -else
+                    a(href="#{host+'/'+item.url}", class="#{item.available? 'available' : 'normal'}", title="#{item.label}") #{item.label}
         div.recommend
-            h5 类型推荐 》
+            h3 类型推荐 》
             ul
                 each item in recommend
-                    each list in item.list
-                        li
-                            a(href="#{list.url}", title="#{list.title}")
-                                span 【#{item.name}】
-                                | #{list.title}
+                    li
+                        a(href="#{host+'/'+item.createTime}", title="#{item.title}") #{item.title.replace(/[在线]|【在线】/, '')}
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://llh8.cn", title="")
                 strong WWW.BAIDU.COM&nbsp;
             | 未满18岁禁止进入
         div#mask.mask
-        script(src="./js/common.js")
+        script(src="#{host}/js/common.js", type="text/javascript")

@@ -162,6 +162,12 @@ body{
     position: relative;
     overflow: hidden;
 }
+.list a.no-more{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
 .list a img{
     width: 100%;
 }
@@ -194,22 +200,27 @@ body{
     margin: 0 auto;
     border: 1px solid #f2f2f2;
 }
-.recommend h5{
-    background: #f2f2f2;
-    line-height: 35px;
+.recommend h3{
+    background: #e9e8e8;
+    line-height: 40px;
     padding-left: 10px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: normal;
 }
 .recommend li{
     display: inline-block;
-    width: 50%;
-    padding-left: 5px;
-    border-top: 1px solid #f2f2f2;
+    width: 100%;
+    padding-left: 10px;
     line-height: 35px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.recommend li:nth-child(even){
+    background:#f5f5f5;
 }
 .recommend li a {
-    color: #c73b3b;
+    color: #6f6b6b;
 }
 .recommend li a:active, .recommend li a:hover{
     color: #f07d7d;
@@ -316,4 +327,9 @@ body{
     -webkit-background-clip: text;
     color: transparent;
     cursor: pointer;
+}
+
+
+@media (max-width:500px) {
+    
 }
