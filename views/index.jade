@@ -23,13 +23,22 @@ html
                     a(href="http://www.llh8.cn", target="_blank", title="永久访问地址")
                         span 永久域名|
                         //- br
-                        strong WWW.BAIDU.COM
+                        strong WWW.LLH8.CN
                 //- div.head-menu.lf
                 //-     each item in menuList
                 //-         a(href="#{item.url}", title="#{item.title}在线列表") #{item.title}
-                div.head-user.rf
-                    span(onclick="showMOdel('login')") 登入
-                    span(onclick="showMOdel('register')") 注册
+                -if(!userInfo)
+                    div.head-user.rf
+                        span(onclick="showMOdel('login')") 登入
+                        span(onclick="showMOdel('register')") 注册
+                -else
+                    div#logined.head-user.rf
+                        span.refresh(onclick='getRefresh()')
+                            | &nbsp;
+                            img(src="./img/refresh.png", alt="刷新登入")
+                        span
+                            a(href="#{host+'/user-info'}") 个人中心       
+                        span(onclick="outLogin()")  退出 
         div.search
             div.search-cont
                 input(type="text", placeholder="搜索-有你想要")
@@ -43,18 +52,21 @@ html
                 -if(listData.length)
                     each item in listData
                         a(href="#{host+'/'+item.createTime}", title="#{item.title}在线观看")
-                            img(src="#{item.img}", alt="#{item.title}")
-                            strong #{item.title.replace(/[在线]|【在线】/, '')}
+                            div
+                                img(src="#{item.img}", alt="#{item.title}")
+                            div.list-title
+                                strong #{item.title.replace(/[在线]|【在线】/, '')}
                 -else
                     a(href="#{host}", class="no-more" title="返回首页") 没有查询到数据，返回首页？
         div.page
+            span.current-page 当前弟"&nbsp;#{currentPage}&nbsp;"页&nbsp;&nbsp;搜索条件"&nbsp;#{titlePage || '无'}&nbsp;"
             each item in page
                 -if(item.active)
                     span(class="#{item.active}") #{item.label}
                 -else
-                    a(href="#{host+'/'+item.url}", class="#{item.available? 'available' : 'normal'}", title="#{item.label}") #{item.label}
+                    a(href="#{host+'/'+item.url}", title="#{item.label}") #{item.label}
         div.recommend
-            h3 类型推荐 》
+            h3 随机推荐 》
             ul
                 each item in recommend
                     li
@@ -62,7 +74,7 @@ html
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://llh8.cn", title="")
-                strong WWW.BAIDU.COM&nbsp;
+                strong WWW.LLH8.CN&nbsp;
             | 未满18岁禁止进入
         div#mask.mask
         script(src="#{host}/js/common.js", type="text/javascript")

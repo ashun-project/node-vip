@@ -13,27 +13,7 @@ var poolVip = mysql.createPool({
     password: 'ashun666',
     database: 'vip'
 });
-
-
-var menuList = [
-    {
-        url: '/',
-        title: '区域一'
-    },
-    {
-        url: '/',
-        title: '区域二'
-    },
-    {
-        url: '/',
-        title: '区域三'
-    },
-    {
-        url: '/',
-        title: '区域四'
-    }
-];
-var marqueeList = ['恭喜发财', '鸿运吉祥'];
+var marqueeList = ['小提醒:充值后若无方法观看联系客服3257905932', '小公告:为防止被墙我们的永久域名是www.llh8.cn', '小提示:找不到喜欢的吗？搜索有你想要哦'];
 
 function vaidParams(userName, password) {
     var error = '';
@@ -55,7 +35,7 @@ router.get('/:page/:title', getIndex);
 function getIndex(req,res) {
     // console.log(req.headers)
     // console.log(req.params, '2323')
-    var page = [{label:1,url:'1'},{label:2,url:'2'},{label:3,url:'3'},{label:4,url:'4'},{label:5,url:'5'},{label:6,url:'6'},{label:7,url:'7'},{label:8,url:'8'}];
+    var page = [{label:1,url:'1'},{label:2,url:'2'},{label:3,url:'3'},{label:4,url:'4'},{label:5,url:'5'}];
     var currentReq = Number(req.params.page) || 1;
     var titleReq = req.params.title || '';
     // console.log(currentReq, titleReq);
@@ -81,13 +61,14 @@ function getIndex(req,res) {
                         // res.render('index')
                     }  else {
                         if (result.length) {
-                            if (currentReq >= 10 || titleReq) {
+                            if (currentReq >= 5 || titleReq) {
                                 var urlTitle = titleReq ? '/'+titleReq : '';
                                 page = [{label: currentReq, url: currentReq, active: true}];
-                                page.unshift({label: '上一页', url: (currentReq - 1) + urlTitle, available: currentReq <= 1});
-                                page.push({label: '下一页', url: (currentReq + 1) + urlTitle, available: result.length < 12});
+                                if(currentReq > 1) page.unshift({label: '上一页', url: (currentReq - 1) + urlTitle});
+                                if(result.length >= 12) page.push({label: '下一页', url: (currentReq + 1) + urlTitle});
                             } else {
                                 page[currentReq-1].active = true;
+                                page.push({label:'下一页',url: currentReq+1});
                             }
                             console.log(currentReq, titleReq)
                         } else{
@@ -95,12 +76,15 @@ function getIndex(req,res) {
                         }
                         var listObj = {
                             listData: result,
-                            pageTitle: '使用示例',
-                            pageKeyword: '你/萝莉红吧,萝莉',
-                            pageDescrition: '萝莉红吧',
+                            pageTitle: titleReq || '萝莉红',
+                            pageKeyword: '网红萝莉，萝莉吧',
+                            pageDescrition: '网红萝莉，萝莉吧',
                             marqueeList: marqueeList,
                             recommend: recommend,
                             page: page,
+                            currentPage: currentReq,
+                            titlePage: titleReq,
+                            userInfo: req.session.loginUser,
                             host: 'http://'+req.headers['host']
                         }
                         res.render('index', listObj);
