@@ -61,7 +61,7 @@ mask.addEventListener('click', function (e) {
     var target = ev.target || ev.srcElement;
     var id = target.getAttribute('id');
     if (id && id == 'mask') {
-        closeModa();
+        closeModal();
     }
 });
 
@@ -129,8 +129,8 @@ function vaidParams(obj, url) {
             if (result.error) {
                 alert(result.error);
             } else {
-                // location.reload();
-                console.log(result)
+                location.reload();
+                // console.log(result)
             }
         },
         error: function () {
@@ -138,7 +138,42 @@ function vaidParams(obj, url) {
         }
     });
 }
-
+function outLogin () {
+    ajax({  
+        type: "post",
+        url: '/logout',
+        beforeSend: function () {},
+        success: function (data) {
+            location.reload();
+        },
+        error: function () {
+            alert('系统异常，操作失败');
+        }
+    });
+}
+function getRefresh() {
+    var rotation = document.getElementsByClassName('refresh')[0];
+    rotation.querySelector('img').className = 'rotation';
+    ajax({
+        type: "post",
+        url: '/refreshLogin',
+        success: function (data) {
+            alert('如充值3分钟后，VIP没开通的，请联系客服：QQ3257905932');
+            location.reload();
+        }
+    });
+}
+function search (id) {
+    var val = document.getElementById('search-value').value;
+    var pathname = window.location.pathname;
+    if (val) {
+        window.location.href = '/1/'+val;
+    } else {
+        if (pathname !== '/') {
+            window.location.href = '/';
+        }
+    }
+}
 
 
 

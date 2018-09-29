@@ -166,4 +166,32 @@ router.post('/login', function (req, res, next) {
     });
 });
 
+// 退出登录
+router.post('/logout', function (req, res, next) {
+    req.session.loginUser = null;
+    res.clearCookie('testapp');
+    res.json({success:'退出成功'});
+});
+
+// 重新查询登录
+router.post('/refreshLogin', function (req, res, next) {
+    var user = req.session.loginUser;
+    if (user && user.userName) {
+        var sql = 'SELECT * FROM list where userName = "'+ user.userName + '"';
+        poolUser.getConnection(function (err, conn) {
+            if (err) console.log("POOL refresh-register==> " + err);
+            conn.query(sql, function (err, result) {
+                if (result.length) {
+                    delete result[0].password;
+                    req.session.loginUser = result[0];
+                }
+                res.json({success: '结束'});
+                conn.release();
+            });
+        });
+    } else {
+        res.json({error: ''});
+    }
+});
+
 module.exports = router;

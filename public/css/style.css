@@ -229,6 +229,9 @@ body{
 }
 .list a .list-title strong{
     font-weight: normal;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
 }
 .recommend{
     max-width: 960px;
@@ -449,5 +452,14 @@ body{
     }
     .recommend li a{
         font-size: 12px;
+    }
+    .modal{
+        padding: 20px 3%;
+    }
+    .modal-body input {
+        margin-top: 10px;
+    }
+    .modal-foot button {
+        margin-top: 20px;
     }
 }

@@ -20,7 +20,7 @@ html
             div.head-cont
                 div.head-logo.lf
                     h1=pageKeyword
-                    a(href="http://www.llh8.cn", target="_blank", title="永久访问地址")
+                    a(href="http://www.llh8.cn", target="_blank", title="萝莉网红永久访问地址")
                         span 永久域名|
                         //- br
                         strong WWW.LLH8.CN
@@ -35,14 +35,14 @@ html
                     div#logined.head-user.rf
                         span.refresh(onclick='getRefresh()')
                             | &nbsp;
-                            img(src="./img/refresh.png", alt="刷新登入")
+                            img(src="#{host+'/img/refresh.png'}", alt="刷新登入")
                         span
                             a(href="#{host+'/user-info'}") 个人中心       
                         span(onclick="outLogin()")  退出 
         div.search
             div.search-cont
-                input(type="text", placeholder="搜索-有你想要")
-                button 搜&nbsp;&nbsp;索
+                input(type="text", id="search-value", placeholder="搜索-有你想要   如：萝莉")
+                button(onclick="search()") 搜&nbsp;&nbsp;索
             div.notice
                 div#notice-cont
                     each item in marqueeList
@@ -53,7 +53,7 @@ html
                     each item in listData
                         a(href="#{host+'/'+item.createTime}", title="#{item.title}在线观看")
                             div
-                                img(src="#{item.img}", alt="#{item.title}")
+                                img(src="#{item.img}", alt="#{item.title}", onerror="this.src='./img/timg.gif'")
                             div.list-title
                                 strong #{item.title.replace(/[在线]|【在线】/, '')}
                 -else
