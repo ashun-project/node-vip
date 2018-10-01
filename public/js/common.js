@@ -82,6 +82,7 @@ function showMOdel(type) {
         loginMOdel.style.display = 'none';
         registerMOdel.style.display = 'block';
     }
+    continueTest();
     mask.style.display = 'block';
 }
 function getLogin() {
@@ -175,6 +176,31 @@ function search (id) {
     }
 }
 
+
+var myiframe = document.getElementById('my-iframe');
+if (myiframe) {
+    var docum = myiframe.contentWindow.document;
+    var ev = docum.querySelector("video");
+    var width = parseInt(ev.getAttribute("width"));
+    var height = parseInt(ev.getAttribute("height")) - 50;
+    var widthcss = parseInt(ev.offsetWidth);
+    var hig = (height / width) * widthcss;
+    ev.style.height = hig+"px";
+    myiframe.style.height=hig+10+"px";
+}
+
+// 提示框
+var testLook = document.getElementById('test-look');
+if (testLook) {
+    testLook.style.zIndex = '100';
+    testLook.style.visibility = 'visible';
+    testLook.style.opacity = '1';
+}
+function continueTest() {
+    testLook.style.zIndex = '-1';
+    testLook.style.visibility = 'hidden';
+    testLook.style.opacity = '0';
+}
 
 
 

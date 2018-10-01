@@ -31,7 +31,13 @@ function vaidParams(userName, password) {
 
 router.get('/', getIndex);
 router.get('/:page', getIndex);
-router.get('/:page/:title', getIndex);
+router.get('/:page/:title', function (req,res) {
+    if (req.params.page === 'detail' && Number(req.params.title)) {
+        getDetail(req,res);
+    } else {
+        getIndex(req,res);
+    }
+});
 function getIndex(req,res) {
     // console.log(req.headers)
     // console.log(req.params, '2323')
@@ -40,10 +46,10 @@ function getIndex(req,res) {
     var titleReq = req.params.title || '';
     // console.log(currentReq, titleReq);
     var limitBefore = ((currentReq - 1) * 12);
-    var reNum = Math.floor(Math.random()*20+1) * 12;
-    var reNumBefore = (reNum == limitBefore ? reNum+12 : reNum);
+    var reNum = Math.floor(Math.random()*10+1) * 12;
+    // var reNumBefore = (reNum == limitBefore ? reNum+12 : reNum);
     var sql = 'SELECT * FROM list order by createTime desc limit ' + (limitBefore + ',' + 12);
-    var recommond = 'SELECT * FROM list order by createTime desc limit ' + (reNumBefore + ',' + 12);
+    var recommond = 'SELECT * FROM list where title like "萝莉" order by createTime desc limit ' + (reNum + ',' + 12);
     if (titleReq) {
         sql = 'SELECT * FROM list where title like "' +'%'+ titleReq +'%'+ '" order by createTime desc limit ' + (limitBefore + ',' + 12);
     }
@@ -59,7 +65,7 @@ function getIndex(req,res) {
                     if (err1) {
                         console.log('recommond1- ', err1.message);
                         // res.render('index')
-                    }  else {
+                    } else {
                         if (result.length) {
                             if (currentReq >= 5 || titleReq) {
                                 var urlTitle = titleReq ? '/'+titleReq : '';
@@ -76,9 +82,9 @@ function getIndex(req,res) {
                         }
                         var listObj = {
                             listData: result,
-                            pageTitle: titleReq || '萝莉红',
-                            pageKeyword: '网红萝莉，萝莉吧',
-                            pageDescrition: '网红萝莉，萝莉吧',
+                            pageTitle: titleReq || '网红萝莉',
+                            pageKeyword: '网红萝莉,萝莉图片,动漫萝莉,萝莉酱',
+                            pageDescrition: '网红萝莉有你,萝莉吧给你想要哦',
                             marqueeList: marqueeList,
                             recommend: recommend,
                             page: page,
@@ -88,6 +94,64 @@ function getIndex(req,res) {
                             host: 'http://'+req.headers['host']
                         }
                         res.render('index', listObj);
+                    }
+                    conn.release();
+                });
+            }
+        });
+    });
+};
+
+function getDetail (req,res) {
+    var testLook = {};
+    var user = req.session.loginUser;
+    var sql = 'SELECT * FROM defDetail where createTime = ' + '"' + req.params.title +'"';
+    var reNum = Math.floor(Math.random()*20+1) * 12;
+    var recommond = 'SELECT * FROM list order by createTime desc limit ' + (reNum + ',' + 12);
+    poolVip.getConnection(function (err, conn) {
+        if (err) console.log("POOL ==> " + err);
+        conn.query(sql, function (err, result) {
+            if (err) {
+                console.log('[detail ERROR] - ', err.message);
+                // res.send('error');
+                conn.release();
+            } else {
+                conn.query(recommond, function (err1, recommend) {
+                    if (err1) {
+                        console.log('detail1- ', err1.message);
+                        // res.render('index')
+                    } else {
+                        console.log(result, '=======')
+                        if (!result[0]) {
+                            result = {};
+                        } else {
+                            result = result[0];
+                        }
+                        if (user) {
+                            if (user.endDate) {
+                                var time = new Date().getTime();
+                                var endTime = new Date(user.endDate.replace(/-/g, '/')).getTime();
+                                if (endTime > time || Number(user.total) > 300) {
+                                    result.video = result.video ? result.video.split('?end=')[0] : '';
+                                } else {
+                                    testLook = {id: 'test-look', cont: '你目前还不是VIP会员，只能试看两分钟。', goVip: true};
+                                }
+                            }
+                        } else {
+                            testLook = {id: 'test-look', cont: '你目前还没有登入，只能试看两分钟。', goVip: ''};
+                        }
+                        var listObj = {
+                            videoData: result,
+                            pageTitle: result.title || '资源不存在',
+                            pageKeyword: result.title || '资源不存在',
+                            pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
+                            marqueeList: marqueeList,
+                            recommend: recommend,
+                            userInfo: user,
+                            testLook: testLook,
+                            host: 'http://'+req.headers['host']
+                        }
+                        res.render('detail', listObj);
                     }
                     conn.release();
                 });

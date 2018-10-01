@@ -10,8 +10,8 @@ html
         meta(name="description", content='#{pageDescrition}')
         meta(name="theme-color", content="#ff5000")
         meta(name="format-detection", content="telephone=no")
-        meta(name="apple-mobile-web-app-title", content="#{pageTitle}")
-        meta(name="application-name", content="#{pageTitle}")
+        meta(name="apple-mobile-web-app-title", content="#{pageDescrition}")
+        meta(name="application-name", content="#{pageDescrition}")
         meta(name="apple-mobile-web-app-status-bar-style", content="black")
         title=pageTitle
         link(rel="stylesheet", type="text/css", href="#{host}/css/style.css")
@@ -51,7 +51,7 @@ html
             div.list
                 -if(listData.length)
                     each item in listData
-                        a(href="#{host+'/'+item.createTime}", title="#{item.title}在线观看")
+                        a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}在线观看")
                             div
                                 img(src="#{item.img}", alt="#{item.title}", onerror="this.src='./img/timg.gif'")
                             div.list-title
@@ -70,7 +70,7 @@ html
             ul
                 each item in recommend
                     li
-                        a(href="#{host+'/'+item.createTime}", title="#{item.title}") #{item.title.replace(/[在线]|【在线】/, '')}
+                        a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}") #{item.title.replace(/[在线]|【在线】/, '')}
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://llh8.cn", title="")
