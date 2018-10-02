@@ -441,6 +441,68 @@ iframe{
 .detail h2{
     padding: 10px 0;
 }
+.mine {
+    background: #f2f2f2;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+.info{
+    background: #fff;
+    padding: 10px;
+    margin: 5px;
+}
+.info span{
+    display: inline-block;
+    line-height: 30px;
+    width: 50%;
+}
+.info span.label{
+    width: 30%;
+}
+.mine .er{
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    line-height: 25px;
+}
+.mine .er img{
+    max-width: 260px;
+    width: 100%;
+    border: 1px solid #eee;
+}
+.vipchooser {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.vipchooser .item {
+    width: 50%;
+    position: relative;
+    padding: 5px;
+}
+.vipchooser .item .item_top {
+    list-style: none;
+    background: #FFFFFF;
+    text-align: center;
+    font-size: 16px;
+    line-height: 28px;
+    border-radius: 3px;
+    padding: 10px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+}
+.vipchooser .item .title {
+    color: #646465;
+    font-size: 18px;
+    font-weight: normal;
+}
+.vipchooser .item .money {
+    color: #444444;
+    font-size: 20px;
+    font-weight: bolder;
+}
 
 @media (max-width:600px) {
     .header{
@@ -505,5 +567,8 @@ iframe{
     .detail h2{
         padding: 5px 0;
         font-size: 14px;
+    }
+    .mine .er {
+        padding: 8px;
     }
 }

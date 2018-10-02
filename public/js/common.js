@@ -197,9 +197,11 @@ if (testLook) {
     testLook.style.opacity = '1';
 }
 function continueTest() {
-    testLook.style.zIndex = '-1';
-    testLook.style.visibility = 'hidden';
-    testLook.style.opacity = '0';
+    if (testLook) {
+        testLook.style.zIndex = '-1';
+        testLook.style.visibility = 'hidden';
+        testLook.style.opacity = '0';
+    }
 }
 
 

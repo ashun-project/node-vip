@@ -24,9 +24,6 @@ html
                         span 永久域名|
                         //- br
                         strong WWW.LLH8.CN
-                //- div.head-menu.lf
-                //-     each item in menuList
-                //-         a(href="#{item.url}", title="#{item.title}在线列表") #{item.title}
                 -if(!userInfo)
                     div.head-user.rf
                         span(onclick="showMOdel('login')") 登入
@@ -37,7 +34,7 @@ html
                             | &nbsp;
                             img(src="#{host+'/img/refresh.png'}", alt="刷新登入")
                         span
-                            a(href="#{host+'/user-info'}") 个人中心       
+                            a(href="#{host+'/user/info'}") 个人中心       
                         span(onclick="outLogin()")  退出 
         div.search
             div.search-cont

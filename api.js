@@ -34,6 +34,8 @@ router.get('/:page', getIndex);
 router.get('/:page/:title', function (req,res) {
     if (req.params.page === 'detail' && Number(req.params.title)) {
         getDetail(req,res);
+    } else if (req.params.page === 'user' && req.params.title === 'info') {
+        getMine(req,res);
     } else {
         getIndex(req,res);
     }
@@ -159,6 +161,30 @@ function getDetail (req,res) {
         });
     });
 };
+
+function getMine (req, res) {
+    var user = req.session.loginUser;
+    var userLevel = '普通会员';
+    var expiryTime = '已到期';
+    if (user && user.endDate) {
+        var endTime = new Date(user.endDate.replace(/-/g, '/')).getTime();
+        if (endTime > new Date().getTime() || Number(user.total) > 300) {
+            userLevelt = 'VIP会员';
+            expiryTime = Number(user.total) > 300 ? '永久' : user.endDate;
+        }
+    }
+    console.log(user, '======')
+    var listObj = {
+        pageTitle: user ? user.userName+'-个人中心' : '个人中心',
+        pageKeyword: user ? user.userName+'-个人中心' : '个人中心',
+        pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
+        userName: user ? user.userName : '无',
+        userLevel: userLevel,
+        expiryTime: expiryTime,
+        host: 'http://'+req.headers['host']
+    }
+    res.render('mine', listObj);
+}
 
 router.post('/register', function (req, res) {
     var userName = req.body.userName? req.body.userName.replace(/(^\s*)|(\s*$)/g, "") : '';
