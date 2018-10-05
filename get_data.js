@@ -68,7 +68,7 @@ function getAjax(url) {
                 resolve();
             } catch (e) {
                 console.log(e)
-                return;
+                reject(e);
             }
         })
     });
