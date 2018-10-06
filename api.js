@@ -51,7 +51,7 @@ function getIndex(req,res) {
     var reNum = Math.floor(Math.random()*10+1) * 12;
     // var reNumBefore = (reNum == limitBefore ? reNum+12 : reNum);
     var sql = 'SELECT * FROM list order by createTime desc limit ' + (limitBefore + ',' + 12);
-    var recommond = 'SELECT * FROM list where title like "萝莉" order by createTime desc limit ' + (reNum + ',' + 12);
+    var recommond = 'SELECT * FROM list where title like "%萝莉%" order by createTime desc limit ' + (reNum + ',' + 12);
     if (titleReq) {
         sql = 'SELECT * FROM list where title like "' +'%'+ titleReq +'%'+ '" order by createTime desc limit ' + (limitBefore + ',' + 12);
     }
@@ -123,7 +123,7 @@ function getDetail (req,res) {
                         console.log('detail1- ', err1.message);
                         // res.render('index')
                     } else {
-                        console.log(result, '=======')
+                        // console.log(result, '=======')
                         if (!result[0]) {
                             result = {};
                         } else {
@@ -173,7 +173,6 @@ function getMine (req, res) {
             expiryTime = Number(user.total) > 300 ? '永久' : user.endDate;
         }
     }
-    console.log(user, '======')
     var listObj = {
         pageTitle: user ? user.userName+'-个人中心' : '个人中心',
         pageKeyword: user ? user.userName+'-个人中心' : '个人中心',

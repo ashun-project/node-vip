@@ -19,7 +19,7 @@ html
         div.header
             div.head-cont
                 div.head-logo.lf
-                    h1 #{pageKeyword+'在线播放'}
+                    h1 #{pageKeyword}
                     a(href="http://www.llh8.cn", target="_blank", title="萝莉网红永久访问地址")
                         span 永久域名|
                         //- br
@@ -63,7 +63,7 @@ html
                 div
                     font(color="#186209") 打开微信，扫描下方二维码付款
                 img(src="#{host+'/img/er.png'}", alt="收款二维码")
-            div
+            div.step
                 div 支付步骤：↓     
                 strong(style="line-height: 25px")
                 font(color="#FF0000")
@@ -73,15 +73,15 @@ html
                     br
                     |   3、付款下方"添加备注"你的用户名（必填）
                     br
-                    |   4、如为开通，请联系客服
+                    |   4、如未开通，请联系客服
                     br
-                div
+                div.service
                     strong 客服:                
                     img(border="0", src="http://pub.idqqimg.com/wpa/images/group.png", alt="vip群图片")
                     a(target="_blank", href="http://shang.qq.com/wpa/qunwpa?idkey=952bbc68530869a9ac3ccaea914fb5338d12e283fb9ec0a62de7065170bd7c6b", title="vip群链接", rel="nofollow") 789820778                   
                     img.logo_img(src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png", alt="vip客服qq图")
                     a(style="text-decoration:underline;", target="_blank", href="http://wpa.qq.com/msgrd?v=3&uin=3257905932&site=qq&menu=yes", title="vipQQ客服链接", rel="nofollow") 3257905932
-            div(style="text-align:center;width: 100%; background: #ccc;line-height: 40px;")
+            div.tip-money
                 strong
                     | 累计充值达到（
                     font(color="red") 300
