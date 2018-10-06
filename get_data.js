@@ -46,7 +46,7 @@ var pool = mysql.createConnection({
     database: 'vip'
 });
 
-// getList();
+
 function getAjax(url) {
     return new Promise((resolve, reject) => {
         var options = {
@@ -142,10 +142,10 @@ function listArr (newArr) {
         getDetail();
     }
 }
-getDetail();
+
 function getDetail() {
-    // var sql = 'select * from list order by createTime desc limit 0,30';
-    var sql = 'select * from list';
+    var sql = 'select * from list order by createTime desc limit 0,30';
+    // var sql = 'select * from list';
     pool.query(sql, function (err, rows, fields) {
         if (err) {
             console.log('[SELECT ERROR] - ', err.message);
@@ -162,7 +162,9 @@ function getDetail() {
 function detailList (list) {
     if (dtNum === list.length) {
         console.log('结束', dtNum);
-
+        setTimeout(function () {
+            getList();
+        }, 28800000); // 8小时后重新调
     } else {
         var sql = 'select * from defDetail where createTime =' + '"' + list[dtNum].createTime +'"';
         pool.query(sql, function (err, rows, fields) {
@@ -186,6 +188,15 @@ function detailList (list) {
                                     console.log('插入第'+dtNum+'条数据成功');
                                 }
                             });
+                        } else {
+                            var sql = 'DELETE FROM list where createTime = '+ '"' + list[dtNum].createTime +'"';
+                            pool.query(sql, function (err, rows, fields) {
+                                if (err) {
+                                    console.log('[SELECT ERROR] - ', err.message);
+                                }else{
+                                    console.log('删除第'+dtNum+'条数据成功');
+                                }
+                            });
                         }
                         dtNum++;
                         detailList(list);
@@ -198,7 +209,6 @@ function detailList (list) {
     }
 }
 
-// getRepeat()
 function getRepeat () {
     var sql = "select * from list where title in (select title from list group by title having count(title)>1)";
     pool.query(sql, function (err, rows, fields) {
@@ -206,3 +216,13 @@ function getRepeat () {
         console.log(rows, '=======')
     })
 }
+function deleteNot() {
+    var sql = 'SELECT list.* FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
+    var delSql = 'DELETE list FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
+    pool.query(sql, function (err, rows, fields) {
+        if (err) console.log('[chear ERROR] - ', err.message);
+        console.log(rows.length, '=======')
+    })
+}
+// deleteNot()
+getList();
