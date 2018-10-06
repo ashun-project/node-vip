@@ -13,7 +13,7 @@ var poolVip = mysql.createPool({
     password: 'ashun666',
     database: 'vip'
 });
-var marqueeList = ['小提醒:充值后若无方法观看联系客服3257905932', '小公告:为防止被墙我们的永久域名是www.llh8.cn', '小提示:找不到喜欢的吗？搜索有你想要哦'];
+var marqueeList = ['小提醒:充值后若无法观看联系客服3257905932', '小公告:为防止被墙我们的永久域名是www.llh8.cn', '小提示:找不到喜欢的吗？搜索有你想要哦'];
 
 function vaidParams(userName, password) {
     var error = '';
