@@ -29,15 +29,19 @@ function vaidParams(userName, password) {
     return error;
 }
 
-router.get('/', getIndex);
-router.get('/:page', getIndex);
-router.get('/:page/:title', function (req,res) {
-    if (req.params.page === 'detail' && Number(req.params.title)) {
-        getDetail(req,res);
-    } else if (req.params.page === 'user' && req.params.title === 'info') {
-        getMine(req,res);
+// router.get('/', getIndex);
+// router.get('/:page', getIndex);
+router.get('/:page?/:title?', function (req,res) {
+    if (req.url !== '/favicon.ico') {
+        if (req.params.page === 'detail' && Number(req.params.title)) {
+            getDetail(req,res);
+        } else if (req.params.page === 'user' && req.params.title === 'info') {
+            getMine(req,res);
+        } else {
+            getIndex(req,res);
+        }
     } else {
-        getIndex(req,res);
+        res.send('');
     }
 });
 function getIndex(req,res) {
@@ -59,7 +63,7 @@ function getIndex(req,res) {
         if (err) console.log("POOL ==> " + err);
         conn.query(sql, function (err, result) {
             if (err) {
-                console.log('[SELECT ERROR] - ', err.message);
+                console.log('[SELECT ERROR] - ', err.message, 'sql', sql);
                 // res.send('error');
                 conn.release();
             } else {
