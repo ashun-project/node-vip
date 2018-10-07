@@ -138,7 +138,7 @@ function listArr (newArr) {
             }
         });
     } else {
-        console.log('获取列表结束', newArr.length);
+        console.log('get list end=', newArr.length);
         getDetail();
     }
 }
@@ -161,7 +161,7 @@ function getDetail() {
 
 function detailList (list) {
     if (dtNum === list.length) {
-        console.log('结束', dtNum);
+        console.log('end--', dtNum);
         setTimeout(function () {
             getList();
         }, 28800000); // 8小时后重新调
@@ -185,7 +185,7 @@ function detailList (list) {
                                 if (err) {
                                     console.log('[SELECT ERROR] - ', err.message);
                                 }else{
-                                    console.log('插入第'+dtNum+'条数据成功');
+                                    console.log('add number'+dtNum+'data success');
                                 }
                             });
                         } else {
@@ -194,7 +194,7 @@ function detailList (list) {
                                 if (err) {
                                     console.log('[SELECT ERROR] - ', err.message);
                                 }else{
-                                    console.log('删除第'+dtNum+'条数据成功');
+                                    console.log('delete number'+dtNum+'data success');
                                 }
                             });
                         }
