@@ -32,16 +32,18 @@ function vaidParams(userName, password) {
 // router.get('/', getIndex);
 // router.get('/:page', getIndex);
 router.get('/:page?/:title?', function (req,res) {
-    if (req.url !== '/favicon.ico') {
+    if (req.url == '/favicon.ico' || (req.params.title && req.params.title.indexOf('javascript') > -1)) {
+        res.send('');
+    } else {
         if (req.params.page === 'detail' && Number(req.params.title)) {
             getDetail(req,res);
         } else if (req.params.page === 'user' && req.params.title === 'info') {
             getMine(req,res);
+        } else if (req.params.page === 'user' && req.params.title === 'member') {
+            getMember(req,res);
         } else {
             getIndex(req,res);
         }
-    } else {
-        res.send('');
     }
 });
 function getIndex(req,res) {
@@ -127,7 +129,6 @@ function getDetail (req,res) {
                         console.log('detail1- ', err1.message);
                         // res.render('index')
                     } else {
-                        // console.log(result, '=======')
                         if (!result[0]) {
                             result = {};
                         } else {
@@ -187,6 +188,36 @@ function getMine (req, res) {
         host: 'http://'+req.headers['host']
     }
     res.render('mine', listObj);
+}
+
+function getMember (req, res) {
+    var user = req.session.loginUser;
+    var userList = ['ashunadmin'];
+    var limit = '';
+    if (req.body.limit) {
+        limit = ' where userName = "'+ req.body.limit +'"';
+    }
+    var sql = 'SELECT * FROM list'+limit;
+    var listObj = {
+        pageTitle: '会员充值',
+        pageKeyword: '会员充值',
+        pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
+        user: user,
+        listData: [],
+        host: 'http://'+req.headers['host']
+    }
+    if(user && userList.indexOf(user.userName) > -1) {
+        poolUser.getConnection(function (err, conn) {
+            if (err) console.log("POOL userlist-register==> " + err);
+            conn.query(sql, function (err, result) {
+                listObj.listData = result;
+                res.render('member', listObj);
+                conn.release();
+            });
+        });
+    } else {
+        res.render('member', listObj);
+    }
 }
 
 router.post('/register', function (req, res) {

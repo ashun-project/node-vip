@@ -18,12 +18,10 @@ html
     body
         div.header
             div.head-cont
-                div.head-logo.lf
+                div.head-logo.lf.return-index
                     h1 #{pageKeyword+'在线播放'}
-                    a(href="http://www.llh8.cn", target="_blank", title="萝莉网红永久访问地址")
-                        span 永久域名|
-                        //- br
-                        strong WWW.LLH8.CN
+                    a(href="/", title="回到首页")
+                        strong &lt;&lt;&nbsp;返回首页
                 -if(!userInfo)
                     div.head-user.rf
                         span(onclick="showMOdel('login')") 登入

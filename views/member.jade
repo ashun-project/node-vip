@@ -1,0 +1,65 @@
+doctype html 5
+html
+    head
+        meta(charset="utf-8")
+        meta(name="viewport", content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover")
+        meta(name="aplus-terminal", content="1")
+        meta(name="data-spm", content="a2141")
+        meta(name="aplus-mmstat-timeout", content="10000")
+        meta(name="keywords", content=pageKeyword)
+        meta(name="description", content='#{pageDescrition}')
+        meta(name="theme-color", content="#ff5000")
+        meta(name="format-detection", content="telephone=no")
+        meta(name="apple-mobile-web-app-title", content="#{pageDescrition}")
+        meta(name="application-name", content="#{pageDescrition}")
+        meta(name="apple-mobile-web-app-status-bar-style", content="black")
+        title=pageTitle
+        link(rel="stylesheet", type="text/css", href="#{host}/css/style.css")
+    body
+        div.header
+            div.head-cont
+                div.head-logo.lf
+                    h1 #{pageKeyword}
+                    a(href="/", title="萝莉网红永久访问地址")
+                        span 超越明天
+                div#logined.head-user.rf
+                    -if(!user)
+                        div.head-user.rf
+                            span(onclick="showMOdel('login')") 登入
+                            span(onclick="showMOdel('register')") 注册
+                    -else
+                        div#logined.head-user.rf   
+                            span(onclick="outLogin()")  退出 
+        div.search
+            div.search-cont
+                input(type="text", id="search-value", placeholder="用户名")
+                button(onclick="search()") 搜&nbsp;&nbsp;索
+        div.bodyer.member
+            table
+                thead
+                    tr
+                        th 用户
+                        th 有效期
+                        th 操作
+                tbody
+                    each item, idx in listData
+                        tr
+                            td #{item.userName}
+                            td #{item.endDate}
+                            td
+                                div
+                                    select
+                                        option(value="7") 一周
+                                        option(value="30") 一个月
+                                        option(value="120") 半年
+                                        option(value="360") 一年
+                                    button(id="add-time", onclick="addTime(#{idx})") 添加会员
+
+            p(id="list-total" style="padding-left:20px;")
+        div.footer
+            | 欢迎来到&nbsp;
+            a(href="http://llh8.cn", title="")
+                strong WWW.LLH8.CN&nbsp;
+            | 未满18岁禁止进入
+        div#mask.mask
+        script(src="#{host}/js/common.js", type="text/javascript")

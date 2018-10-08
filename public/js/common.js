@@ -222,6 +222,9 @@ scrollNotice();
 function scrollNotice () {
     var num = 1;
     var notice = document.getElementById('notice-cont');
+    if (!notice) {
+        return;
+    }
     var p = notice.querySelectorAll('p');
     var np = '';
     if (p.length > 1) {
@@ -237,4 +240,49 @@ function scrollNotice () {
             }
         }, 3000)
     }
+}
+
+function addTime(idx) {
+    var money = {'7': 9.9, '30': 26, '120': 120, '360': 200};
+    var row = document.getElementById('id-'+idx);
+    var day = row.querySelector('select').value;
+    var rowData = JSON.parse(row.getAttribute('user-data'));
+    var time = (Number(day)+1) * 24 * 60 * 60 * 1000;
+    var startTiem = new Date().getTime() + time;
+    var date = '';
+    if (rowData.endDate) {
+        var date = rowData.endDate.replace(/-/g, '/');
+        if (new Date(date).getTime() > new Date().getTime()) {
+            startTiem = new Date(date).getTime() + time;
+        }
+    }
+    // date = getFormatDate(startTiem);
+    // params = {
+    //     endDate: date,
+    //     total: money[day] + Number(rowData.total),
+    //     userName: rowData.userName
+    // }
+    // modal.style.display = 'block';
+}
+function sureAddTme() {
+    if (!params || !params.endDate) {
+        alert('error');
+        return;
+    }
+    ajax({  
+        type: "post",
+        url: '/updateUser',
+        data: params,
+        success: function (data) {
+            var result = JSON.parse(data);
+            if (result.error) {
+                alert(result.error);
+            } else {
+                location.reload();
+            }
+        },
+        error: function () {
+            alert('系统异常，操作失败');
+        }
+    });
 }

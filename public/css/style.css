@@ -53,14 +53,43 @@ body{
 .head-logo strong{
     color: #fff;
 }
-/* .head-menu a{
-    display: inline-block;
-    padding: 0 20px;
-    color: #333;
-    height: 30px;
-    line-height: 30px;
-    margin-top: 20px;
-} */
+.return-index{
+    font-size: 16px;
+}
+.return-index a:hover strong{
+    color: #c7723b;
+}
+table {
+    width: 100%;
+    font-size: .938em;
+    border-collapse: collapse;/*边框会合并为一个单一的边框*/
+}
+th {
+    padding: .5em .5em;
+    font-weight: bold;
+    background: #66677c;color: #fff;
+}
+
+td {
+    padding: .5em .5em;
+    border-bottom: solid 1px #ccc;
+    text-align: center;
+}
+table,table tr th, table tr td { border:1px solid #0094ff; }
+table select{
+    border: 1px solid #eee;
+    margin-right: 5px;
+}
+#add-time {
+    padding: 2px 5px;
+    font-size: 12px;
+    height: auto;
+    margin-top: 5px;
+    background: #c9c382;
+    color: #fff;
+    border-radius: 3px;
+    
+}
 .head-user span{
     cursor: pointer;
     display: inline-block;
