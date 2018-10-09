@@ -168,7 +168,7 @@ function search (id) {
     var val = document.getElementById('search-value').value;
     var pathname = window.location.pathname;
     if (val) {
-        window.location.href = '/1/'+val;
+        window.location.href = '/1/'+val.substr(0, 10);
     } else {
         if (pathname !== '/') {
             window.location.href = '/';
