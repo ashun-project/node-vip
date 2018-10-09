@@ -13,7 +13,7 @@ var poolVip = mysql.createPool({
     password: 'ashun666',
     database: 'vip'
 });
-var marqueeList = ['小提醒:充值后若无法观看联系客服3257905932', '小公告:为防止被墙我们的永久域名是www.llh8.cn', '小提示:找不到喜欢的吗？搜索有你想要哦'];
+var marqueeList = ['小提醒:充值后若无法观看联系客服3257905932', '小公告:为防止被墙我们的永久域名是www.llh8.cn', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
 
 function vaidParams(userName, password) {
     var error = '';
@@ -134,13 +134,13 @@ function getDetail (req,res) {
                             result = result[0];
                         }
                         if (user) {
+                            testLook = {id: 'test-look', cont: '你目前还不是VIP会员，只能试看两分钟。', goVip: true};
                             if (user.endDate) {
                                 var time = new Date().getTime();
                                 var endTime = new Date(user.endDate.replace(/-/g, '/')).getTime();
                                 if (endTime > time || Number(user.total) > 300) {
                                     result.video = result.video ? result.video.split('?end=')[0] : '';
-                                } else {
-                                    testLook = {id: 'test-look', cont: '你目前还不是VIP会员，只能试看两分钟。', goVip: true};
+                                    testLook = {};
                                 }
                             }
                         } else {

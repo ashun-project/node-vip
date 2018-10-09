@@ -39,7 +39,7 @@ var ip = [
     '45.116.208.24',
     '45.120.243.24'
 ];
-var pool = mysql.createConnection({
+var pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'ashun666',
@@ -94,7 +94,7 @@ function getList () {
         }
         
         if (num > 1) {
-            console.log('当前第========', num);
+            console.log('current page is========', num);
             num--;
             getList();
         } else {
@@ -114,28 +114,34 @@ function getList () {
 function listArr (newArr) {
     if (dtNum < newArr.length) {
         var sql = 'select * from list where url =' + '"' + newArr[dtNum][1] +'"';
-        pool.query(sql, function (err, rows, fields) {
-            if (err) {
-                console.log('[newArr-error] - ', err.message);
-                listArr(newArr);
-            } else {
-                if (rows.length) {
-                    // console.log(rows);
-                    dtNum++;
+        pool.getConnection(function (err, conn) {
+            if (err) console.log("detail ==> " + err);
+            conn.query(sql, function (err, rows, fields) {
+                if (err) {
+                    console.log('[newArr-error] - ', err.message);
+                    conn.release();
                     listArr(newArr);
                 } else {
-                    var sql = "INSERT INTO list(createTime,url,title,img) VALUES (?,?,?,?)";
-                    pool.query(sql, newArr[dtNum], function (err, rows, fields) {
-                        if (err) {
-                            console.log('[SELECT ERROR] - ', err.message);
-                            listArr(newArr);
-                        } else {
-                            dtNum++;
-                            listArr(newArr);
-                        }
-                    });
+                    if (rows.length) {
+                        // console.log(rows);
+                        dtNum++;
+                        conn.release();
+                        listArr(newArr);
+                    } else {
+                        var sql = "INSERT INTO list(createTime,url,title,img) VALUES (?,?,?,?)";
+                        conn.query(sql, newArr[dtNum], function (err, rows, fields) {
+                            if (err) {
+                                console.log('[SELECT ERROR] - ', err.message);
+                                listArr(newArr);
+                            } else {
+                                dtNum++;
+                                listArr(newArr);
+                            }
+                            conn.release();
+                        });
+                    }
                 }
-            }
+            });
         });
     } else {
         console.log('get list end=', newArr.length);
@@ -146,16 +152,20 @@ function listArr (newArr) {
 function getDetail() {
     var sql = 'select * from list order by createTime desc limit 0,30';
     // var sql = 'select * from list';
-    pool.query(sql, function (err, rows, fields) {
-        if (err) {
-            console.log('[SELECT ERROR] - ', err.message);
-            getDetail();
-        } else {
-            if (rows.length) {
-                dtNum = 0;
-                detailList(rows);
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("detail ==> " + err);
+        conn.query(sql, function (err, rows, fields) {
+            if (err) {
+                console.log('[SELECT ERROR] - ', err.message);
+                getDetail();
+            } else {
+                if (rows.length) {
+                    dtNum = 0;
+                    detailList(rows);
+                }
             }
-        }
+            conn.release();
+        });
     });
 }
 
@@ -164,65 +174,80 @@ function detailList (list) {
         console.log('end--', dtNum);
         setTimeout(function () {
             getList();
-        }, 28800000); // 8小时后重新调
+        }, 28800000); // 8小时后重新调  
     } else {
         var sql = 'select * from defDetail where createTime =' + '"' + list[dtNum].createTime +'"';
-        pool.query(sql, function (err, rows, fields) {
-            if (err) {
-                console.log('[chear ERROR] - ', err.message);
-                detailList(list)
-            } else {
-                if (rows.length) {
-                    dtNum++;
+        pool.getConnection(function (err, conn) {
+            if (err) console.log("detail ==> " + err);
+            conn.query(sql, function (err, rows, fields) {
+                if (err) {
+                    console.log('[chear ERROR] - ', err.message);
+                    conn.release();
                     detailList(list);
                 } else {
-                    getAjax(list[dtNum].url).then(function () {
-                        var video = $('#content video').attr('src');
-                        if (video) {
-                            var sql = "INSERT INTO defDetail(createTime,url,title, video) VALUES (?,?,?,?)";
-                            var info = [list[dtNum].createTime, list[dtNum].url, list[dtNum].title, video];
-                            pool.query(sql, info, function (err, rows, fields) {
-                                if (err) {
-                                    console.log('[SELECT ERROR] - ', err.message);
-                                }else{
-                                    console.log('add number'+dtNum+'data success');
-                                }
-                            });
-                        } else {
-                            var sql = 'DELETE FROM list where createTime = '+ '"' + list[dtNum].createTime +'"';
-                            pool.query(sql, function (err, rows, fields) {
-                                if (err) {
-                                    console.log('[SELECT ERROR] - ', err.message);
-                                }else{
-                                    console.log('delete number'+dtNum+'data success');
-                                }
-                            });
-                        }
+                    if (rows.length) {
                         dtNum++;
+                        conn.release();
                         detailList(list);
-                    }, function () {
-                        detailList(list);
-                    });
+                    } else {
+                        getAjax(list[dtNum].url).then(function () {
+                            var video = $('#content video').attr('src');
+                            if (video) {
+                                var sql = "INSERT INTO defDetail(createTime,url,title, video) VALUES (?,?,?,?)";
+                                var info = [list[dtNum].createTime, list[dtNum].url, list[dtNum].title, video];
+                                conn.query(sql, info, function (err, rows, fields) {
+                                    if (err) {
+                                        console.log('[SELECT ERROR] - ', err.message);
+                                    }else{
+                                        console.log('add number'+dtNum+'data success');
+                                    }
+                                    conn.release();
+                                });
+                            } else {
+                                var sql = 'DELETE FROM list where createTime = '+ '"' + list[dtNum].createTime +'"';
+                                conn.query(sql, function (err, rows, fields) {
+                                    if (err) {
+                                        console.log('[SELECT ERROR] - ', err.message);
+                                    }else{
+                                        console.log('delete number'+dtNum+'data success');
+                                    }
+                                    conn.release();
+                                });
+                            }
+                            dtNum++;
+                            detailList(list);
+                        }, function () {
+                            detailList(list);
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }); 
     }
 }
 
 function getRepeat () {
     var sql = "select * from list where title in (select title from list group by title having count(title)>1)";
-    pool.query(sql, function (err, rows, fields) {
-        if (err) console.log('[chear ERROR] - ', err.message);
-        console.log(rows, '=======')
-    })
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL ==> " + err);
+        conn.query(sql, function (err, rows, fields) {
+            if (err) console.log('[chear ERROR] - ', err.message);
+            console.log(rows, '=======');
+            conn.release();
+        });
+    });
 }
 function deleteNot() {
     var sql = 'SELECT list.* FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
     var delSql = 'DELETE list FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
-    pool.query(sql, function (err, rows, fields) {
-        if (err) console.log('[chear ERROR] - ', err.message);
-        console.log(rows.length, '=======')
-    })
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL ==> " + err);
+        conn.query(sql, function (err, rows, fields) {
+            if (err) console.log('[chear ERROR] - ', err.message);
+            console.log(rows.length, '=======');
+            conn.release();
+        })
+    });
 }
 // deleteNot()
 getList();
