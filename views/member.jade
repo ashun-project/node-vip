@@ -32,10 +32,10 @@ html
                             span(onclick="outLogin()")  退出 
         div.search
             div.search-cont
-                input(type="text", id="search-value", placeholder="用户名")
-                button(onclick="search()") 搜&nbsp;&nbsp;索
+                input(type="text", id="member-search-value", placeholder="用户名")
+                button(onclick="memberSearch()") 搜&nbsp;&nbsp;索
         div.bodyer.member
-            table
+            table(id="my-table")
                 thead
                     tr
                         th 用户
@@ -44,16 +44,16 @@ html
                 tbody
                     each item, idx in listData
                         tr
-                            td #{item.userName}
-                            td #{item.endDate}
+                            td(id="user-name-#{idx}", name="#{item.userName}") #{item.userName}
+                            td(id="user-time-#{idx}") #{item.endDate}
                             td
                                 div
-                                    select
+                                    select(id="select-time-#{idx}")
                                         option(value="7") 一周
                                         option(value="30") 一个月
-                                        option(value="120") 半年
+                                        option(value="180") 半年
                                         option(value="360") 一年
-                                    button(id="add-time", onclick="addTime(#{idx})") 添加会员
+                                    button(onclick="addTime(#{idx},#{item.total})") 添加会员
 
             p(id="list-total" style="padding-left:20px;")
         div.footer
@@ -62,4 +62,7 @@ html
                 strong WWW.LLH8.CN&nbsp;
             | 未满18岁禁止进入
         div#mask.mask
+        div#modal-member
+            <button onclick="sureAddTme(1)">取消</button>
+            <button onclick="sureAddTme()">确定</button>
         script(src="#{host}/js/common.js", type="text/javascript")

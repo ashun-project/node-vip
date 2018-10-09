@@ -220,6 +220,24 @@ function getMember (req, res) {
     }
 }
 
+// 更新用户列表
+router.post('/updateUser', function (req, res, next) {
+    var login = req.session.loginUser;
+    var userList = ['ashunadmin'];
+    var sql = 'update list set endDate = "'+ req.body.endDate +'",total = "'+ req.body.total +'" where userName = "'+ req.body.userName + '"';
+    if(login && userList.indexOf(login.userName) > -1) {
+        poolUser.getConnection(function (err, conn) {
+            if (err) console.log("POOL userlist-register==> " + err);
+            conn.query(sql, function (err, result) {
+                res.json({success: '更新成功'});
+                conn.release();
+            });
+        });
+    } else {
+        res.json({error: '更新失败'});
+    }
+});
+
 router.post('/register', function (req, res) {
     var userName = req.body.userName? req.body.userName.replace(/(^\s*)|(\s*$)/g, "") : '';
     var err = vaidParams(userName, req.body.password);

@@ -37,7 +37,7 @@ html
                             | &nbsp;
                             img(src="#{host+'/img/refresh.png'}", alt="刷新登入")
                         span
-                            a(href="#{host+'/user/info'}") 个人中心       
+                            a(href="#{host+'/user/info'}", target="_blank") 个人中心       
                         span(onclick="outLogin()")  退出 
         div.search
             div.search-cont
@@ -51,7 +51,7 @@ html
             div.list
                 -if(listData.length)
                     each item in listData
-                        a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}在线观看")
+                        a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}在线观看", target="_blank")
                             div
                                 img(src="#{item.img}", alt="#{item.title}", onerror="this.src='./img/timg.gif'")
                             div.list-title

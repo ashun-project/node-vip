@@ -204,19 +204,6 @@ function continueTest() {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 公告
 scrollNotice();
 function scrollNotice () {
@@ -242,37 +229,45 @@ function scrollNotice () {
     }
 }
 
-function addTime(idx) {
-    var money = {'7': 9.9, '30': 26, '120': 120, '360': 200};
-    var row = document.getElementById('id-'+idx);
-    var day = row.querySelector('select').value;
-    var rowData = JSON.parse(row.getAttribute('user-data'));
-    var time = (Number(day)+1) * 24 * 60 * 60 * 1000;
+
+//开通时间
+var modalMember = document.getElementById('modal-member');
+var memberParame = {};
+function addTime(idx, total) {
+    var money = {'7': 9.9, '30': 26, '180': 120, '360': 200};
+    var userName = document.getElementById('user-name-'+idx).textContent;
+    var userTime = document.getElementById('user-time-'+idx).textContent;
+    var seleltTime = document.getElementById('select-time-'+idx).value;
+    var time = (Number(seleltTime)+1) * 24 * 60 * 60 * 1000;
     var startTiem = new Date().getTime() + time;
     var date = '';
-    if (rowData.endDate) {
-        var date = rowData.endDate.replace(/-/g, '/');
+    if (userTime) {
+        var date = userTime.replace(/-/g, '/');
         if (new Date(date).getTime() > new Date().getTime()) {
             startTiem = new Date(date).getTime() + time;
         }
     }
-    // date = getFormatDate(startTiem);
-    // params = {
-    //     endDate: date,
-    //     total: money[day] + Number(rowData.total),
-    //     userName: rowData.userName
-    // }
-    // modal.style.display = 'block';
+    date = getFormatDate(startTiem);
+    memberParame = {
+        endDate: date,
+        total: money[seleltTime] + Number(total),
+        userName: userName
+    }
+    modalMember.style.display = 'block';
 }
-function sureAddTme() {
-    if (!params || !params.endDate) {
+function sureAddTme(cancel) {
+    if (!memberParame || !memberParame.endDate) {
         alert('error');
+        return;
+    }
+    if (cancel) {
+        modalMember.style.display = 'none';
         return;
     }
     ajax({  
         type: "post",
         url: '/updateUser',
-        data: params,
+        data: memberParame,
         success: function (data) {
             var result = JSON.parse(data);
             if (result.error) {
@@ -285,4 +280,28 @@ function sureAddTme() {
             alert('系统异常，操作失败');
         }
     });
+}
+function getFormatDate(time) {
+    var date = new Date(time);
+    var str = '';
+    var dateArr = [date.getFullYear(), '-', date.getMonth() + 1, '-', date.getDate()];
+    dateArr.forEach(item => {
+        if (typeof item === 'number' && item < 10) item = '0' + item;
+        str += item;
+    });
+    return str;
+}
+function memberSearch () {
+    // debugger
+    // window.event.returnValue=false;
+    var value = document.getElementById('member-search-value').value;
+    var table = document.getElementById('my-table');
+    var td = table
+    window.location.href = url;
+}
+function getKeyup(e) {
+    var event = e || window.event;
+    if (event.keyCode == "13") {
+        // getUserList();
+    }
 }
