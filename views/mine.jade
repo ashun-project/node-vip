@@ -36,6 +36,7 @@ html
                 p
                     span.label 用户名:
                     span#user-name #{userName}
+                    a.rf(href="#jiaocheng") 充值教程&darr;
                 p
                     span.label 会员等级:
                     span#user-level #{userLevel}
@@ -60,10 +61,11 @@ html
                         p.title VIP 360天(①年)              
                         p.money ￥200     
             div.er
-                div
-                    font(color="#186209") 打开微信，扫描下方二维码付款
+                div.chongzhi
+                    font(color="#186209") 打开微信，扫描下方二维码付款 &nbsp;&nbsp;
+                    a(href="#jiaocheng") 充值教程&darr;
                 img(src="#{host+'/img/er.png'}", alt="收款二维码")
-            div.step
+            div.step#jiaocheng
                 div 支付步骤：↓     
                 strong(style="line-height: 25px")
                 font(color="#FF0000")
@@ -91,3 +93,4 @@ html
             a(href="http://llh8.cn", title="")
                 strong WWW.LLH8.CN&nbsp;
             | 未满18岁禁止进入
+        script(src="#{host}/js/common.js", type="text/javascript")

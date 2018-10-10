@@ -498,11 +498,17 @@ iframe{
     background: #fff;
     padding: 10px;
     margin: 5px;
+    line-height: 30px;
 }
 .info span{
     display: inline-block;
-    line-height: 30px;
-    width: 50%;
+    width: 40%;
+}
+.info a{
+    color: #0ed815;
+}
+.info a:hover{
+    color: #057209;
 }
 .info span.label{
     width: 30%;
@@ -567,6 +573,14 @@ iframe{
 }
 .service img, .service a{
     float: left;
+}
+.chongzhi{
+    border-bottom: 1px solid #e0e0e0;
+    line-height: 35px;
+    margin-bottom: 8px;
+}
+.chongzhi a:hover{
+    color: #057209;
 }
 .step{
     /* margin: 5px; */

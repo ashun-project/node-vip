@@ -174,7 +174,7 @@ function getMine (req, res) {
     if (user && user.endDate) {
         var endTime = new Date(user.endDate.replace(/-/g, '/')).getTime();
         if (endTime > new Date().getTime() || Number(user.total) > 300) {
-            userLevelt = 'VIP会员';
+            userLevel = 'VIP会员';
             expiryTime = Number(user.total) > 300 ? '永久' : user.endDate;
         }
     }

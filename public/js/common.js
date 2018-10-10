@@ -55,15 +55,17 @@ function convertData(data) {  
 var userCont = '<div class="modal my-login"><span class="close" onclick="closeModal()">X</span><h6 class="modal-tite">Wellcome</h6><div class="modal-body"><form action="" id="login-form"><input type="text" name="userName" placeholder="用户名"> <input type="password" name="password" placeholder="密码"></form></div><div class="modal-foot"><button onclick="getLogin()">登&nbsp;&nbsp;&nbsp;录</button><p><font color="red">还没有账号吗？</font><span onclick="showMOdel(&quot;register&quot;)"><font color="#1ab394">去注册</font></span></p></div></div><div class="modal my-register"><span class="close" onclick="closeModal()">X</span><h6 class="modal-tite">Wellcome</h6><div class="modal-body"><form action="" id="register-form"><input type="text" name="userName" placeholder="用户名"> <input type="password" name="password" placeholder="密码"> <input type="password" name="vaidPassword" placeholder="确认密码"></form></div><div class="modal-foot"><button onclick="getRegister()">注&nbsp;&nbsp;&nbsp;册</button><p><font color="red">已有账号吗？</font><span onclick="showMOdel(&quot;login&quot;)"><font color="#1ab394">去登入</font></span></p></div></div>';
 var mask = document.getElementById('mask');
 // 判断是否为登入状态
-mask.innerHTML = userCont;
-mask.addEventListener('click', function (e) {
-    var ev = e || window.event;
-    var target = ev.target || ev.srcElement;
-    var id = target.getAttribute('id');
-    if (id && id == 'mask') {
-        closeModal();
-    }
-});
+if (mask) {
+    mask.innerHTML = userCont;
+    mask.addEventListener('click', function (e) {
+        var ev = e || window.event;
+        var target = ev.target || ev.srcElement;
+        var id = target.getAttribute('id');
+        if (id && id == 'mask') {
+            closeModal();
+        }
+    });
+}
 
 function closeModal() {
     var modal = document.getElementsByClassName('modal');
