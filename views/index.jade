@@ -66,11 +66,11 @@ html
                 -else
                     a(href="#{host+'/'+item.url}", title="#{item.label}") #{item.label}
         div.recommend
-            h3 随机推荐 》
+            h3 随机推荐 &gt;
             ul
                 each item in recommend
                     li
-                        a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}") #{item.title.replace(/[在线]|【在线】/, '')}
+                        a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}", target="_blank") #{item.title.replace(/[在线]|【在线】/, '')}
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://llh8.cn", title="")

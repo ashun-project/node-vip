@@ -230,7 +230,7 @@ function scrollNotice () {
                     notice.appendChild(np);
                 }
             }
-        }, 3000)
+        }, 5000)
     }
 }
 

@@ -21,7 +21,7 @@ html
                 div.head-logo.lf.return-index
                     h1 #{pageKeyword+'在线播放'}
                     a(href="/", title="回到首页")
-                        strong &lt;&lt;&nbsp;返回首页
+                        strong &lt;&nbsp;返回首页
                 -if(!userInfo)
                     div.head-user.rf
                         span(onclick="showMOdel('login')") 登入
@@ -49,7 +49,7 @@ html
             -else
                 a(href="#{host}", class="no-more" title="返回首页") 没有查询到数据，返回首页？
         div.recommend
-            h3 随机推荐 》
+            h3 随机推荐 &gt;
             ul
                 each item in recommend
                     li
