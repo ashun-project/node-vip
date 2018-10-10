@@ -171,7 +171,7 @@ function getDetail() {
 
 function detailList (list) {
     if (dtNum === list.length) {
-        console.log('end--', dtNum);
+        console.log('end--', dtNum, 'current-time--', new Date().getTime());
         setTimeout(function () {
             getList();
         }, 28800000); // 8小时后重新调  

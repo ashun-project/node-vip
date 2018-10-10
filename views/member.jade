@@ -32,7 +32,7 @@ html
                             span(onclick="outLogin()")  退出 
         div.search
             div.search-cont
-                input(type="text", id="member-search-value", placeholder="用户名")
+                input(type="text", id="member-search-value", placeholder="用户名", onkeyup="getKeyup()")
                 button(onclick="memberSearch()") 搜&nbsp;&nbsp;索
         div.bodyer.member
             table(id="my-table")
@@ -43,8 +43,8 @@ html
                         th 操作
                 tbody
                     each item, idx in listData
-                        tr
-                            td(id="user-name-#{idx}", name="#{item.userName}") #{item.userName}
+                        tr(name="#{item.userName}")
+                            td(id="user-name-#{idx}") #{item.userName}
                             td(id="user-time-#{idx}") #{item.endDate}
                             td
                                 div
@@ -55,7 +55,7 @@ html
                                         option(value="360") 一年
                                     button(onclick="addTime(#{idx},#{item.total})") 添加会员
 
-            p(id="list-total" style="padding-left:20px;")
+            p(id="list-total" style="padding-left:20px;") #{listData.length}
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://llh8.cn", title="")

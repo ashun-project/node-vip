@@ -41,7 +41,7 @@ html
                         span(onclick="outLogin()")  退出 
         div.search
             div.search-cont
-                input(type="text", id="search-value", placeholder="搜索-有你想要   如：萝莉")
+                input(type="text", id="search-value", placeholder="搜索-有你想要   如：萝莉", onkeyup="getSearchKeyup()")
                 button(onclick="search()") 搜&nbsp;&nbsp;索
             div.notice
                 div#notice-cont

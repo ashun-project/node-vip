@@ -175,7 +175,12 @@ function search (id) {
         }
     }
 }
-
+function getSearchKeyup (e) {
+    var event = e || window.event;
+    if (event.keyCode == "13") {
+        search();
+    }
+}
 
 var myiframe = document.getElementById('my-iframe');
 if (myiframe) {
@@ -292,16 +297,24 @@ function getFormatDate(time) {
     return str;
 }
 function memberSearch () {
-    // debugger
-    // window.event.returnValue=false;
     var value = document.getElementById('member-search-value').value;
     var table = document.getElementById('my-table');
-    var td = table
-    window.location.href = url;
+    var tr = table.querySelectorAll('tbody tr');
+    for (var i = 0; i < tr.length; i++) {
+        if (value) {
+            if (tr[i].getAttribute('name') === value) {
+                tr[i].removeAttribute('style');
+            } else {
+                tr[i].setAttribute('style', 'display:none');
+            }
+        } else {
+            tr[i].removeAttribute('style');
+        }
+    }
 }
 function getKeyup(e) {
     var event = e || window.event;
     if (event.keyCode == "13") {
-        // getUserList();
+        memberSearch()
     }
 }
