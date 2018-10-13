@@ -199,9 +199,12 @@ if (myiframe) {
 // 提示框
 var testLook = document.getElementById('test-look');
 if (testLook) {
-    testLook.style.zIndex = '100';
-    testLook.style.visibility = 'visible';
-    testLook.style.opacity = '1';
+    setTimeout(function () {
+        testLook.style.zIndex = '100';
+        testLook.style.visibility = 'visible';
+        testLook.style.opacity = '1';
+        testLook.style.top = '100px';
+    }, 1000);
 }
 function continueTest() {
     if (testLook) {

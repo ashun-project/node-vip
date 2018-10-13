@@ -153,7 +153,7 @@ function getDetail (req,res) {
                             pageKeyword: result.title || '资源不存在',
                             pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
                             marqueeList: marqueeList,
-                            recommend: recommend,
+                            recommend: recommend.slice(0,8),
                             userInfo: user,
                             testLook: testLook,
                             host: 'http://'+req.headers['host']
