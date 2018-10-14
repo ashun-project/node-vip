@@ -122,12 +122,13 @@ table select{
     margin-top: 10px;
     border-radius: 2px;
     box-shadow: 0 0 10px rgba(51, 51, 51, 0.09);
+    position: relative;
 }
 .head-user span a{
     color: #333;
 }
 .head-user span:hover, .head-user span a:hover{
-    color: rgb(78, 64, 64);
+    color: rgb(99, 83, 83);
 }
 .head-user span:active,.head-user span:active a{
     background: #000;

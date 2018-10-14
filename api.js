@@ -90,7 +90,7 @@ function getIndex(req,res) {
                         }
                         var listObj = {
                             listData: result,
-                            pageTitle: titleReq || '网红萝莉',
+                            pageTitle: (titleReq || '网红萝莉') + (currentReq > 1 ? '-第' + currentReq + '页' : ''),
                             pageKeyword: '网红萝莉,萝莉图片,动漫萝莉,萝莉酱',
                             pageDescrition: '网红萝莉有你,萝莉吧给你想要哦',
                             marqueeList: marqueeList,
