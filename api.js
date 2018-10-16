@@ -335,5 +335,15 @@ router.post('/refreshLogin', function (req, res, next) {
         res.json({error: ''});
     }
 });
+router.get('*', function (req, res, next) {
+    var listObj = {
+        pageTitle: '网红萝莉404页面',
+        pageKeyword: '网红萝莉,萝莉图片,动漫萝莉,萝莉酱',
+        pageDescrition: '网红萝莉有你,萝莉吧给你想要哦',
+        host: 'http://'+req.headers['host']
+    }
+    res.status(404);
+    res.render('404', listObj);
+});
 
 module.exports = router;
