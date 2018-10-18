@@ -192,21 +192,21 @@ function getMine (req, res) {
 
 function getMember (req, res) {
     var user = req.session.loginUser;
-    var userList = ['ashunadmin'];
-    var limit = '';
-    if (req.body.limit) {
-        limit = ' where userName = "'+ req.body.limit +'"';
-    }
-    var sql = 'SELECT * FROM list'+limit;
+    var sql = 'SELECT * FROM list'
+ 
     var listObj = {
         pageTitle: '会员充值',
         pageKeyword: '会员充值',
         pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
         user: user,
         listData: [],
+        balance: user ? user.balance : 0,
         host: 'http://'+req.headers['host']
     }
-    if(user && userList.indexOf(user.userName) > -1) {
+    if (user && user.auth === '1') {
+        if (user.type) {
+            sql = sql + ' where type like "%'+ user.type +'%"';
+        }
         poolUser.getConnection(function (err, conn) {
             if (err) console.log("POOL userlist-register==> " + err);
             conn.query(sql, function (err, result) {
@@ -242,7 +242,7 @@ router.post('/register', function (req, res) {
     var userName = req.body.userName? req.body.userName.replace(/(^\s*)|(\s*$)/g, "") : '';
     var err = vaidParams(userName, req.body.password);
     var sql = 'SELECT * FROM list where userName = "'+ userName + '"';
-    var sql2 = "INSERT INTO list(userName, password) VALUES (?, ?)";
+    var sql2 = "INSERT INTO list(userName, password, total, type) VALUES (?, ?, ?, ?)";
     if (err) {
         res.json({error: err});
         return;
@@ -256,10 +256,10 @@ router.post('/register', function (req, res) {
                 conn.release();
             } else {
                 if (!result[0]) {
-                    conn.query(sql2, [userName, req.body.password], function (err1, result1) {
+                    conn.query(sql2, [userName, req.body.password, '0', req.headers['host']], function (err1, result1) {
                         if (err1) {
                             console.log('register1- ', err1.message);
-                            res.json({error: '系统出错请重新操作'});
+                            res.json({error: '系统出错请重新操作2'});
                         }  else {
                             req.session.loginUser = {userName: userName};
                             res.json({userName: userName});
