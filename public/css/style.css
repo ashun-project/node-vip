@@ -595,6 +595,16 @@ iframe{
     font-weight: 600;
 }
 
+.agent{
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    background: #333;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    line-height: 30px;
+}
 @media (max-width:600px) {
     .header{
         height: 45px;
