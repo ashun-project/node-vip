@@ -48,6 +48,9 @@ html
                 iframe(id="my-iframe" data-src='<!doctype html><head><meta charset="utf-8"></head><body><style>*{box-sizing: border-box;margin:0;padding:0;}video{background:#000;width:100%;padding:30px;}@media(max-width:500px){video{padding: 2px;}}</style><video width="510" height="350" controls="controls" src="#{videoData.video}">您的浏览器不支持HTML5的 video 标签，无法为您播放！</video></body></html>', src='javascript:document.write(window.frameElement.getAttribute("data-src"))')
             -else
                 a(href="#{host}", class="no-more" title="返回首页") 没有查询到数据，返回首页？
+        div.la 拉微信号:
+            font(color="red") llhb_cn
+            | 进500人以上的微信群，送VIP。
         div.recommend.detail
             h3 随机推荐 &gt;
             div.list

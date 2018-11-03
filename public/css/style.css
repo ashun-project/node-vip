@@ -605,6 +605,14 @@ iframe{
     text-align: center;
     line-height: 30px;
 }
+.la{
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 10px;
+    font-size: 20px;
+    padding: 0 5px;
+
+}
 @media (max-width:600px) {
     .header{
         height: 45px;
