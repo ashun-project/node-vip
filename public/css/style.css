@@ -613,6 +613,30 @@ iframe{
     padding: 0 5px;
 
 }
+.kefu{
+    position:fixed;
+    bottom:0;
+    left:0;
+    height:40px;
+    line-height:40px;
+    background:rgba(0, 0, 0, 0.65);
+    width:100%;
+    padding: 0 5px;
+}
+.kefu * {
+    float: left;
+    color: #fff;
+}
+.kefu img{
+    margin-top: 8px;
+    margin-left:8px;
+    margin-right: 5px;
+}
+.kefu .logo_img{
+    margin-top: 10px;
+    margin-right: 8px;
+    margin-left: 15px;
+}
 @media (max-width:600px) {
     .header{
         height: 45px;

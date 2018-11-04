@@ -323,3 +323,19 @@ function getKeyup(e) {
         memberSearch()
     }
 }
+// 底部
+var cBody =  document.getElementsByTagName('body')[0];
+var cHost = 'http://'+window.location.host;
+var cHt = '<div class="kefu"><strong>联系客服:</strong><img border="0" src="'+cHost+'/img/wei2.png" alt="vip微信图片" style="width:25px;"><span>13952470578</span>'+
+         '<img src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png" alt="vip客服qq图" class="logo_img"><a style="text-decoration:underline;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=762008732&amp;site=qq&amp;menu=yes">762008732</a></div>';
+var cDiv = document.createElement('div');
+cDiv.innerHTML = cHt;
+cBody.style.paddingBottom = '40px';
+cBody.appendChild(cDiv);
+
+
+var qq = localStorage.getItem('qq');
+if (!qq) {
+    alert('QQ号已更换，老用户亲须知。站点上有最新的');
+    localStorage.setItem('qq', '123');
+}
