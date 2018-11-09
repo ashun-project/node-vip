@@ -13,7 +13,7 @@ var poolVip = mysql.createPool({
     password: 'ashun666',
     database: 'vip'
 });
-var marqueeList = ['小提醒:充值后若无法观看联系客服762008732', '小公告:为防止被墙我们的永久域名是www.llh8.cn', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
+var marqueeList = ['小提醒:充值后若无法观看联系客服762008732', '小福利:累计充值满300元永久免费哦', '小公告:为防止被墙我们的永久域名是www.llh8.cn', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
 
 function vaidParams(userName, password) {
     var error = '';
@@ -149,7 +149,7 @@ function getDetail (req,res) {
                         }
                         var listObj = {
                             videoData: result,
-                            pageTitle: result.title || '资源不存在',
+                            pageTitle: result.title+'-网红萝莉吧' || '资源不存在',
                             pageKeyword: result.title || '资源不存在',
                             pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
                             marqueeList: marqueeList,
@@ -179,7 +179,7 @@ function getMine (req, res) {
         }
     }
     var listObj = {
-        pageTitle: user ? user.userName+'-个人中心' : '个人中心',
+        pageTitle: user ? user.userName+'-网红萝莉吧个人中心' : '网红萝莉吧个人中心',
         pageKeyword: user ? user.userName+'-个人中心' : '个人中心',
         pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
         userName: user ? user.userName : '无',
