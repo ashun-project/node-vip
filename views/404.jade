@@ -16,4 +16,8 @@ html
         title=pageTitle
     body
         div(style="text-align:center;line-height:60px;")
-            a(href="#{host}") 没有找到页面，返回首页
+            a#go-index(href="#{host}") 没有找到页面，返回首页
+        script.
+            setTimeout(function () {
+                window.location.href = document.getElementById('go-index').getAttribute('href');
+            }, 3000)
