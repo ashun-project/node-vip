@@ -623,7 +623,12 @@ iframe{
     width:100%;
     padding: 0 5px;
 }
-.kefu * {
+.kefu .kefu-cont{
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+.kefu .kefu-cont * {
     float: left;
     color: #fff;
 }
