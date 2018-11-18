@@ -172,9 +172,11 @@ function getDetail() {
 function detailList (list) {
     if (dtNum === list.length) {
         console.log('end--', dtNum, 'current-time--', new Date().getTime());
+        var date = new Date();
+        var timeS = new Date(date.getFullYear() +'-' + (date.getMonth()+1) + '-' + date.getDate() + ' 23:00:00').getTime();
         setTimeout(function () {
             getList();
-        }, 28800000); // 8小时后重新调  
+        }, timeS - date.getTime() + (6*60*60*1000)); // 8小时后重新调  
     } else {
         var sql = 'select * from defDetail where createTime =' + '"' + list[dtNum].createTime +'"';
         pool.getConnection(function (err, conn) {
