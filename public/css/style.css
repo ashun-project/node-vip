@@ -563,12 +563,16 @@ iframe{
     font-weight: bolder;
 }
 .tip-money{
-    background: #e6e6e6;
-    line-height: 40px;
-    color: #4a4a4a;
-    text-align:center;
-    width: 100%;
+    /* background: #e6e6e6; */
+    /* line-height: 40px; */
+    /* color: #4a4a4a; */
+    /* text-align:center; */
+    /* padding: 3px;
+    width: 100%; */
     border-top: 1px solid #fff;
+}
+.tip-money span{
+    font-weight: normal;
 }
 .service{
     display: flex;

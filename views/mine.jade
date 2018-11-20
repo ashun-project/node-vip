@@ -36,7 +36,7 @@ html
                 p
                     span.label 用户名:
                     span#user-name #{userName}
-                    a.rf(href="#jiaocheng") 充值教程&darr;
+                    a.rf(href="#shuoming") 充值说明&darr;
                 p
                     span.label 会员等级:
                     span#user-level #{userLevel}
@@ -62,11 +62,13 @@ html
                         p.money ￥200     
             div.er
                 div.chongzhi
-                    font(color="#186209") 打开微信，扫描下方二维码付款 &nbsp;&nbsp;
+                    font(color="#186209") 微信扫描二维码付款(请备注用户名)&nbsp;&nbsp;
                     a(href="#jiaocheng") 充值教程&darr;
+                div(style=" color: rgb(212, 141, 9);font-size: 18px;font-weight: bold;")
+                    strong 充值没到帐？请联系客服。
                 img(src="#{host+'/img/er.png'}", alt="收款二维码")
             div.step#jiaocheng
-                div 支付步骤：↓     
+                div 充值步骤：↓     
                 strong(style="line-height: 25px")
                 font(color="#FF0000")
                     |   1、长按二维码“保存图片”（iOS需手动截屏保存）
@@ -83,11 +85,31 @@ html
                     span 13952470578                   
                     img.logo_img(src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png", alt="vip客服qq图")
                     a(style="text-decoration:underline;", target="_blank", href="http://wpa.qq.com/msgrd?v=3&uin=762008732&site=qq&menu=yes", title="vipQQ客服链接", rel="nofollow") 762008732
-            div.tip-money
-                strong
+            div.step.tip-money#shuoming
+                div 
+                    strong 充值说明：↓
+                span
+                    | 本站点为付费站点，只有VIP会员才能观看完整版。
+                    br
+                    | 充值
+                    font(color="red") 9.9元
+                    | 可享一个星期VIP会员，
+                    br
+                    | 充值
+                    font(color="red") 26元
+                    | 可享一个月VIP会员，
+                    br
+                    | 充值
+                    font(color="red") 120元
+                    | 可享半年VIP会员，
+                    br
+                    | 充值
+                    font(color="red") 200元
+                    | 可享一年VIP会员.
+                    br
                     | 累计充值达到（
-                    font(color="red") 300
-                    | ）以上的会员将永久免费
+                    font(color="red") 300元
+                    | ）以上的会员将永久免费。
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://llh8.cn", title="")

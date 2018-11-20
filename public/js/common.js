@@ -335,8 +335,8 @@ cBody.style.paddingBottom = '40px';
 cBody.appendChild(cDiv);
 
 
-var qq = localStorage.getItem('qq');
-if (!qq) {
-    alert('QQ号已更换，老用户亲须知。站点上有最新的');
-    localStorage.setItem('qq', '123');
-}
+// var bb = localStorage.getItem('bb');
+// if (!bb) {
+//     alert('线路维护中请先观看普通区域。地址：xjb520.com');
+//     localStorage.setItem('bb', '123');
+// }
