@@ -149,7 +149,7 @@ function getDetail (req,res) {
                         }
                         var listObj = {
                             videoData: result,
-                            pageTitle: result.title || '资源不存在',
+                            pageTitle: result.title.replace(/[在线]|【在线】/, '') || '资源不存在',
                             pageKeyword: result.title || '资源不存在',
                             pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
                             marqueeList: marqueeList,
