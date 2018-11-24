@@ -184,6 +184,7 @@ function getMine (req, res) {
         pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
         userName: user ? user.userName : '无',
         userLevel: userLevel,
+        total: user ? user.total : '0',
         expiryTime: expiryTime,
         host: 'http://'+req.headers['host']
     }
