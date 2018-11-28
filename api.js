@@ -47,68 +47,102 @@ router.get('/:page?/:title?', function (req,res) {
     }
 });
 function getIndex(req,res) {
-    // console.log(req.headers)
-    // console.log(req.params, '2323')
-    var page = [{label:1,url:'1'},{label:2,url:'2'},{label:3,url:'3'},{label:4,url:'4'},{label:5,url:'5'}];
     var currentReq = Number(req.params.page) || 1;
     var titleReq = req.params.title || '';
-    // console.log(currentReq, titleReq);
     var limitBefore = ((currentReq - 1) * 12);
     var reNum = Math.floor(Math.random()*10+1) * 12;
-    // var reNumBefore = (reNum == limitBefore ? reNum+12 : reNum);
     var sql = 'SELECT * FROM list order by createTime desc limit ' + (limitBefore + ',' + 12);
+    var count = 'SELECT COUNT(*) FROM list';
     var recommond = 'SELECT * FROM list where title like "%萝莉%" order by createTime desc limit ' + (reNum + ',' + 12);
     if (titleReq) {
         sql = 'SELECT * FROM list where title like "' +'%'+ titleReq +'%'+ '" order by createTime desc limit ' + (limitBefore + ',' + 12);
+        count = 'SELECT COUNT(*) FROM list where title like "' +'%'+ titleReq +'%'+ '"';
     }
     poolVip.getConnection(function (err, conn) {
         if (err) console.log("POOL ==> " + err);
         conn.query(sql, function (err, result) {
             if (err) {
                 console.log('[SELECT ERROR] - ', err.message, 'sql', sql);
-                // res.send('error');
                 conn.release();
             } else {
                 conn.query(recommond, function (err1, recommend) {
                     if (err1) {
                         console.log('recommond1- ', err1.message);
-                        // res.render('index')
+                        conn.release();
                     } else {
-                        if (result.length) {
-                            if (currentReq >= 5 || titleReq) {
-                                var urlTitle = titleReq ? '/'+titleReq : '';
-                                page = [{label: currentReq, url: currentReq, active: true}];
-                                if(currentReq > 1) page.unshift({label: '上一页', url: (currentReq - 1) + urlTitle});
-                                if(result.length >= 12) page.push({label: '下一页', url: (currentReq + 1) + urlTitle});
-                            } else {
-                                page[currentReq-1].active = true;
-                                page.push({label:'下一页',url: currentReq+1});
+                        conn.query(count, function (errC, total) {
+                            var listObj = {
+                                listData: result,
+                                pageTitle: (titleReq || '网红萝莉吧') + (currentReq > 1 ? '-第' + currentReq + '页' : ''),
+                                pageKeyword: '网红萝莉,萝莉图片,动漫萝莉,萝莉酱',
+                                pageDescrition: '网红萝莉有你,萝莉吧给你想要哦',
+                                marqueeList: marqueeList,
+                                recommend: recommend,
+                                page: getPage(Number(total[0]['COUNT(*)']) || 0, currentReq, titleReq, req.headers['host']),
+                                currentPage: currentReq,
+                                titlePage: titleReq,
+                                userInfo: req.session.loginUser,
+                                host: 'http://'+req.headers['host']
                             }
-                            console.log(currentReq, titleReq)
-                        } else{
-                            page = [];
-                        }
-                        var listObj = {
-                            listData: result,
-                            pageTitle: (titleReq || '网红萝莉吧') + (currentReq > 1 ? '-第' + currentReq + '页' : ''),
-                            pageKeyword: '网红萝莉,萝莉图片,动漫萝莉,萝莉酱',
-                            pageDescrition: '网红萝莉有你,萝莉吧给你想要哦',
-                            marqueeList: marqueeList,
-                            recommend: recommend,
-                            page: page,
-                            currentPage: currentReq,
-                            titlePage: titleReq,
-                            userInfo: req.session.loginUser,
-                            host: 'http://'+req.headers['host']
-                        }
-                        res.render('index', listObj);
+                            res.render('index', listObj);
+                            conn.release();
+                        })
                     }
-                    conn.release();
                 });
             }
         });
     });
 };
+
+function getPage(total, currentPage, type, host) {
+    var totalPage = 0;//总页数
+    var pageSize = 12;//每页显示行数
+    var pageUrl = 'http://'+ host+'/';
+    var pageTitle = type? '/'+type : '';
+    //总共分几页
+    if(total/pageSize > parseInt(total/pageSize)){
+        totalPage=parseInt(total/pageSize)+1;
+    }else{
+        totalPage=parseInt(total/pageSize);
+    }
+    var tempStr = "<span>共"+totalPage+"页</span>";
+    if(currentPage>1){
+        tempStr += "<a href="+ pageUrl + '1' + pageTitle + ">首页</a>";
+        tempStr += "<a href="+ pageUrl + (currentPage-1) + pageTitle +">上一页</a>"
+    }else{
+        tempStr += "<span class='btn'>首页</span>";
+        tempStr += "<span class='btn'>上一页</span>";
+    }
+
+    if (currentPage > 5 && currentPage < (totalPage -5)) {
+        for(var pageIndex= currentPage - 5; pageIndex<currentPage+5;pageIndex++){
+            tempStr += "<a class='"+ (pageIndex=== currentPage? 'active' : '') +"' href="+ pageUrl + pageIndex + pageTitle +">"+ pageIndex +"</a>";
+        }
+    } else if (currentPage > (totalPage -5) && totalPage >= 10){
+        for(var pageIndex= (totalPage - 9); pageIndex < totalPage+1;pageIndex++){
+            tempStr += "<a class='"+ (pageIndex=== currentPage? 'active' : '') +"' href="+ pageUrl + pageIndex + pageTitle +">"+ pageIndex +"</a>";
+        }
+    } else if (currentPage <= 5 && totalPage > 10) {
+        for(var pageIndex= 1; pageIndex <= 10;pageIndex++){
+            tempStr += "<a class='"+ (pageIndex=== currentPage? 'active' : '') +"' href="+ pageUrl + pageIndex + pageTitle +">"+ pageIndex +"</a>";
+        }
+    } else {
+        for(var pageIndex= 1; pageIndex <= totalPage;pageIndex++){
+            tempStr += "<a class='"+ (pageIndex=== currentPage? 'active' : '') +"' href="+ pageUrl + pageIndex + pageTitle +">"+ pageIndex +"</a>";
+        }
+    }
+
+    if(currentPage<totalPage){
+        tempStr += "<a href="+ pageUrl + (currentPage+1) + pageTitle +">下一页</a>";
+        tempStr += "<a href="+ pageUrl + totalPage + pageTitle +">尾页</a>";
+    }else{
+        tempStr += "<span class='btn'>下一页</span>";
+        tempStr += "<span class='btn'>尾页</span>";
+    }
+
+    return tempStr;
+}
+
 
 function getDetail (req,res) {
     var testLook = {};

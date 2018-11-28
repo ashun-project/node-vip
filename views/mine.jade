@@ -15,14 +15,13 @@ html
         meta(name="apple-mobile-web-app-status-bar-style", content="black")
         title=pageTitle
         link(rel="stylesheet", type="text/css", href="#{host}/css/style.css")
-    body
+    body.mine
         div.header
             div.head-cont
                 div.head-logo.lf
                     h1 #{pageKeyword}
                     a(href="http://www.llh8.vip", target="_blank", title="萝莉网红永久访问地址")
                         span 永久域名|
-                        //- br
                         strong WWW.LLH8.VIP
                 div#logined.head-user.rf
                     span.refresh(onclick='getRefresh()')
@@ -31,89 +30,75 @@ html
                     span #{userName}
                     span
                         a(href="#{host}", title="返回首页") 首页
-        div.bodyer.mine
-            div.info
-                p
-                    span.label 用户名:
-                    span#user-name #{userName}
-                    a.rf(href="#shuoming") 充值说明&darr;
-                p
-                    span.label 会员等级:
-                    span#user-level #{userLevel}
-                p
-                    span.label 到期时间:
-                    span#user-date #{expiryTime}
-                p
-                    span.label 累计充值:
-                    span#user-total #{total}&nbsp;
-                        font (满300永久免费)
-            div.vipchooser
-                div.item
-                    div.item_top
-                        p.title VIP 7天(①周)   
-                        p.money ￥9.9     
-                div.item
-                    div.item_top
-                        p.title VIP 30天(①月)               
-                        p.money ￥26
-                div.item
-                    div.item_top
-                        p.title VIP 180天(半年)        
-                        p.money ￥120  
-                div.item
-                    div.item_top
-                        p.title VIP 360天(①年)              
-                        p.money ￥200     
-            div.er
-                div.chongzhi
-                    font(color="#186209") 微信扫描二维码付款(请备注用户名)&nbsp;&nbsp;
-                    a(href="#jiaocheng") 充值教程&darr;
-                div(style=" color: rgb(212, 141, 9);font-size: 18px;font-weight: bold;")
-                    strong 充值没到帐？请联系客服。
-                img(src="#{host+'/img/er.png'}", alt="收款二维码")
-            div.step#jiaocheng
-                div 充值步骤：↓     
-                strong(style="line-height: 25px")
-                font(color="#FF0000")
-                    |   1、长按二维码“保存图片”（iOS需手动截屏保存）
-                    br
-                    |   2、打开微信“扫一扫”，从相册选取该二维码
-                    br
-                    |   3、付款下方"添加备注"你的用户名（必填）
-                    br
-                    |   4、新用户最好先联系客服（以免不懂操作）
-                    br
-                div.service
-                    strong 客服:                
-                    img(border="0", src="#{host+'/img/wei2.png'}", alt="vip微信图片", style="width:25px;")
-                    span 13952470578                   
-                    img.logo_img(src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png", alt="vip客服qq图")
-                    a(style="text-decoration:underline;", target="_blank", href="http://wpa.qq.com/msgrd?v=3&uin=762008732&site=qq&menu=yes", title="vipQQ客服链接", rel="nofollow") 762008732
-            div.step.tip-money#shuoming
-                div 
-                    strong 充值说明：↓
-                span
-                    | 本站点为付费站点，只有VIP会员才能观看完整版。
-                    br
-                    | 充值
-                    font(color="red") 9.9元
-                    | 可享一个星期VIP会员，
-                    br
-                    | 充值
-                    font(color="red") 26元
-                    | 可享一个月VIP会员，
-                    br
-                    | 充值
-                    font(color="red") 120元
-                    | 可享半年VIP会员，
-                    br
-                    | 充值
-                    font(color="red") 200元
-                    | 可享一年VIP会员.
-                    br
-                    | 累计充值达到（
-                    font(color="red") 300元
-                    | ）以上的会员将永久免费。
+        div.info
+            p
+                span.label 用户名:
+                span#user-name #{userName}
+            p
+                span.label 会员等级:
+                span#user-level #{userLevel}
+            p
+                span.label 到期时间:
+                span#user-date #{expiryTime}
+            p
+                span.label 累计充值:
+                span#user-total #{total}&nbsp;
+                    font (满300永久免费)    
+        div.tab
+            div.tab-menu
+                a.shuoming(href="#shuoming") 本站说明
+                a.chongzhi(href="#chongzhi") 马上充值
+            div.tab-list
+                div.tip-money#shuoming
+                    span
+                        | 本站点为付费站点，普通会员最多只能观看两分钟
+                        br
+                        | 充值后才能观看完整版，费用说明如下
+                        br
+                        | 充值
+                        font(color="red") &nbsp;9.9元&nbsp;
+                        | 可享一个星期VIP会员
+                        br
+                        | 充值
+                        font(color="red") &nbsp;26元&nbsp;
+                        | 可享一个月VIP会员
+                        br
+                        | 充值
+                        font(color="red") &nbsp;120元&nbsp;
+                        | 可享半年VIP会员
+                        br
+                        | 充值
+                        font(color="red") &nbsp;200元&nbsp;
+                        | 可享一年VIP会员
+                        br
+                        | 累计充值达到（
+                        font(color="red") 300元
+                        | ）以上的会员将永久免费
+                        br
+                    div.service
+                        strong 客服:                
+                        img(border="0", src="#{host+'/img/wei2.png'}", alt="vip微信图片", style="width:25px;")
+                        span 13952470578                   
+                        img.logo_img(src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png", alt="vip客服qq图")
+                        a(style="text-decoration:underline;", target="_blank", href="http://wpa.qq.com/msgrd?v=3&uin=762008732&site=qq&menu=yes", title="vipQQ客服链接", rel="nofollow") 762008732
+                    font(color="red") 新用户最好先联系客服（以免不懂操作）
+                div.er
+                    div.chongzhi#chongzhi
+                        font(color="#186209") 
+                            strong 微信扫描下方二维码付款--请备注用户名
+                        br
+                        img(src="#{host+'/img/er.png'}", alt="收款二维码")
+                        div(style=" color: rgb(212, 141, 9);font-size: 18px;font-weight: bold;")
+                            strong 充值没到帐？请联系客服。
+                    div.step
+                        div 
+                            strong 充值步骤：↓    
+                        |   1、长按二维码“保存图片”（iOS需手动截屏保存）
+                        br
+                        |   2、打开微信“扫一扫”，从相册选取该二维码
+                        br
+                        |   3、付款下方"添加备注"你的用户名（必填）
+                    
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://llh8.vip", title="http://llh8.vip")

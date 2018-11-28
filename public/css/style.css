@@ -328,6 +328,7 @@ table select{
     border-top: 1px solid #f2f2f2;
     /* background: #f1f1f1; */
     text-align: center;
+    background: #fff;
 }
 .footer a{
     color: #c73b3b;
@@ -349,7 +350,7 @@ table select{
     box-shadow: 0 0 10px rgba(51, 51, 51, 0.09019);
     border-radius: 2px;
 }
-.page span{
+.page span, .page a.active{
     color: #828181;
 }
 .page span.current-page{
@@ -495,116 +496,107 @@ iframe{
 }
 .mine {
     background: #f2f2f2;
-    max-width: 600px;
+    /* max-width: 100%;
     width: 100%;
-    margin: 0 auto;
+    margin: 0 auto; */
 }
-.info{
+.mine .info{
     background: #fff;
-    padding: 10px;
-    margin: 5px;
+    padding: 5px 10px;
+    max-width: 960px;
+    margin: 10px auto 0;
     line-height: 30px;
 }
-.info span{
+.mine .info span{
     display: inline-block;
     width: 40%;
 }
-.info #user-total{
+.mine .info #user-total{
     width: 70%;
 }
-.info #user-total font{
-    color: rgb(69, 69, 69);
+.mine .info #user-total font{
+    color: rgb(165, 62, 62);
 }
-.info a{
+.mine .info a{
     color: #0ed815;
 }
-.info a:hover{
+.mine .info a:hover{
     color: #057209;
 }
-.info span.label{
+.mine .info span.label{
     width: 30%;
     color: #666;
 }
-.mine .er{
-    padding: 15px;
-    width: 100%;
+.mine .tab-menu{
+    max-width: 970px;
+    margin: 0 auto 10px;
     text-align: center;
-    line-height: 25px;
+    padding: 10px 5px 0;
 }
-.mine .er img{
-    max-width: 260px;
-    width: 100%;
-    border: 1px solid #eee;
+.mine .tab-menu a{
+    display: inline-block;
+    width: 49%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    background: #f07d7d;
+    color: #fff;
+    border-radius: 3px;
 }
-.vipchooser {
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
+.mine .tab-menu a.shuoming{
+    margin-right: 1%;
+}
+.mine .tab-menu a.chongzhi{
+    margin-left: 1%;
+}
+.mine .tab-menu a:active{
+    background: #c73b3b;
+}
+.mine .tab-list{
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
 }
-.vipchooser .item {
+.mine .tab-list > div{
     width: 50%;
-    position: relative;
-    padding: 5px;
+    padding: 6px;
 }
-.vipchooser .item .item_top {
-    list-style: none;
-    background: #FFFFFF;
+.mine .er{
+    line-height: 30px;
+}
+.mine .er .chongzhi{
     text-align: center;
-    font-size: 16px;
-    line-height: 28px;
-    border-radius: 3px;
-    padding: 10px 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
 }
-.vipchooser .item .title {
-    color: #333;
-    font-size: 16px;
-    font-weight: normal;
-}
-.vipchooser .item .money {
-    color: #ce0505;
-    font-size: 20px;
-    font-weight: bolder;
-}
-.tip-money{
-    /* background: #e6e6e6; */
-    /* line-height: 40px; */
-    /* color: #4a4a4a; */
-    /* text-align:center; */
-    /* padding: 3px;
-    width: 100%; */
-    border-top: 1px solid #fff;
-}
-.tip-money span{
-    font-weight: normal;
+.mine .er .chongzhi img{
+    max-width: 260px;
+    width: 100%;
 }
 .service{
     display: flex;
     height: 35px;
     align-items: center;
-    /* justify-content: center; */
 }
 .service img, .service a{
     float: left;
 }
-.chongzhi{
-    border-bottom: 1px solid #e0e0e0;
-    line-height: 35px;
-    margin-bottom: 8px;
-}
-.chongzhi a:hover{
-    color: #057209;
-}
 .step{
-    /* margin: 5px; */
-    padding: 6px;
+    border-top: 1px solid rgb(235, 235, 235);
     line-height: 25px;
-    background: #e6e6e6;
-    font-weight: 600;
+    padding-top: 5px;
+    margin-top: 5px;
+    color: rgb(54, 54, 54);
+    display: none;
 }
 
+.tip-money{
+    margin: 0 auto;
+    line-height: 30px;
+}
+.tip-money span{
+    font-weight: normal;
+}
 .agent{
     width: 100%;
     max-width: 960px;
@@ -614,14 +606,6 @@ iframe{
     padding: 15px 0;
     text-align: center;
     line-height: 30px;
-}
-.la{
-    width: 100%;
-    max-width: 960px;
-    margin: 0 auto 10px;
-    font-size: 20px;
-    padding: 0 5px;
-
 }
 .kefu{
     position:fixed;
@@ -718,7 +702,19 @@ iframe{
         padding: 5px 0;
         font-size: 14px;
     }
-    .mine .er {
-        padding: 8px;
+    .mine .tab-list > div{
+        width: 100%;
+    }
+    .mine .tab-list .er{
+        border-top: 1px solid rgb(227, 226, 226);
+    }
+    .step{
+        display: block;
+    }
+    .tip-money{
+        line-height: 25px;
+    }
+    .service{
+        display: none;
     }
 }
