@@ -183,7 +183,7 @@ function getDetail (req,res) {
                         }
                         var listObj = {
                             videoData: result,
-                            pageTitle: result.title.replace(/[在线]|【在线】/, '') || '资源不存在',
+                            pageTitle: result.title ? result.title.replace(/[在线]|【在线】/, '') : '资源不存在',
                             pageKeyword: result.title || '资源不存在',
                             pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
                             marqueeList: marqueeList,
@@ -202,7 +202,7 @@ function getDetail (req,res) {
 };
 
 function getMine (req, res) {
-    var user = req.session.loginUser;
+    var user = req.session.loginUser || {};
     var userLevel = '普通会员';
     var expiryTime = '已到期';
     if (user && user.endDate) {
@@ -213,12 +213,12 @@ function getMine (req, res) {
         }
     }
     var listObj = {
-        pageTitle: user ? user.userName+'-网红萝莉吧个人中心' : '网红萝莉吧个人中心',
-        pageKeyword: user ? user.userName+'-个人中心' : '个人中心',
+        pageTitle: user.userName ? user.userName+'-网红萝莉吧个人中心' : '网红萝莉吧个人中心',
+        pageKeyword: user.userName ? user.userName+'-个人中心' : '个人中心',
         pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
-        userName: user ? user.userName : '无',
+        userName: user.userName || '无',
         userLevel: userLevel,
-        total: user ? user.total : '0',
+        total: user.total || '0',
         expiryTime: expiryTime,
         host: 'http://'+req.headers['host']
     }
@@ -277,7 +277,7 @@ router.post('/register', function (req, res) {
     var userName = req.body.userName? req.body.userName.replace(/(^\s*)|(\s*$)/g, "") : '';
     var err = vaidParams(userName, req.body.password);
     var sql = 'SELECT * FROM list where userName = "'+ userName + '"';
-    var sql2 = "INSERT INTO list(userName, password, total, type) VALUES (?, ?, ?, ?)";
+    var sql2 = "INSERT INTO list(userName, password, total, type, rgTime) VALUES (?, ?, ?, ?, ?)";
     if (err) {
         res.json({error: err});
         return;
@@ -291,7 +291,7 @@ router.post('/register', function (req, res) {
                 conn.release();
             } else {
                 if (!result[0]) {
-                    conn.query(sql2, [userName, req.body.password, '0', req.headers['host']], function (err1, result1) {
+                    conn.query(sql2, [userName, req.body.password, '0', req.headers['host'], new Date().getTime()+''], function (err1, result1) {
                         if (err1) {
                             console.log('register1- ', err1.message);
                             res.json({error: '系统出错请重新操作2'});

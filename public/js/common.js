@@ -69,20 +69,28 @@ if (mask) {
 
 function closeModal() {
     var modal = document.getElementsByClassName('modal');
+    var myBodyer = document.getElementsByClassName('bodyer')[0];
     for (var i = 0; i < modal.length; i++) {
         modal[i].style.display = 'none';
+    }
+    if (myBodyer) {
+        myBodyer.setAttribute('id', '');
     }
     mask.style.display = 'none';
 }
 function showMOdel(type) {
     var loginMOdel = document.getElementsByClassName('my-login')[0];
     var registerMOdel = document.getElementsByClassName('my-register')[0];
+    var myBodyer = document.getElementsByClassName('bodyer')[0];
     if(type === 'login') {
         loginMOdel.style.display = 'block';
         registerMOdel.style.display = 'none';
     } else {
         loginMOdel.style.display = 'none';
         registerMOdel.style.display = 'block';
+    }
+    if (myBodyer) {
+        myBodyer.setAttribute('id', 'mr-top');
     }
     continueTest();
     mask.style.display = 'block';
@@ -244,7 +252,7 @@ function scrollNotice () {
 var modalMember = document.getElementById('modal-member');
 var memberParame = {};
 function addTime(idx, total) {
-    var money = {'7': 9.9, '30': 26, '180': 120, '360': 200};
+    var money = {'1': 3.3, '7': 9.9, '30': 26, '180': 120, '360': 200};
     var userName = document.getElementById('user-name-'+idx).textContent;
     var userTime = document.getElementById('user-time-'+idx).textContent;
     var seleltTime = document.getElementById('select-time-'+idx).value;
