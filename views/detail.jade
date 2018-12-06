@@ -67,7 +67,7 @@ html
             div(class="test-body") #{testLook.cont}
             div(class="test-foot")
                 -if(testLook.goVip)
-                    button(onclick="beComeMember()", class="test-sure") 
+                    button(class="test-sure") 
                         a(href="#{host+'/user/info'}") 成为会员
                 -else
                     button(onclick="showMOdel('login')", class="test-sure") 去登入   

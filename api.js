@@ -274,7 +274,7 @@ router.post('/updateUser', function (req, res, next) {
 });
 
 router.post('/register', function (req, res) {
-    var userName = req.body.userName? req.body.userName.replace(/(^\s*)|(\s*$)/g, "") : '';
+    var userName = req.body.userName? req.body.userName.replace(/\s+/g, "") : '';
     var err = vaidParams(userName, req.body.password);
     var sql = 'SELECT * FROM list where userName = "'+ userName + '"';
     var sql2 = "INSERT INTO list(userName, password, total, type, rgTime) VALUES (?, ?, ?, ?, ?)";
