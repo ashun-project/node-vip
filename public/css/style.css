@@ -52,6 +52,7 @@ body{
 }
 .head-logo strong{
     color: #fff;
+    font-size: 18px;
 }
 .return-index{
     font-size: 16px;
@@ -659,6 +660,9 @@ iframe{
     }
     .head-logo a span{
         display: none;
+    }
+    .head-logo strong{
+        font-size: 16px;
     }
     .search{
         padding: 15px 5px;

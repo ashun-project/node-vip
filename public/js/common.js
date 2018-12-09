@@ -169,7 +169,7 @@ function getRefresh() {
         type: "post",
         url: '/refreshLogin',
         success: function (data) {
-            alert('如充值3分钟后，VIP没开通的，请联系客服：QQ762008732');
+            alert('如充值3分钟后，VIP没开通的，请联系客服!(充值时要备注用户名)');
             location.reload();
         }
     });

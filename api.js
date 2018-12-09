@@ -13,7 +13,7 @@ var poolVip = mysql.createPool({
     password: 'ashun666',
     database: 'vip'
 });
-var marqueeList = ['小提醒:充值后若无法观看联系客服762008732', '小福利:累计充值满300元永久免费哦', '小公告:为防止被墙我们的永久域名是www.llh8.vip', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
+var marqueeList = ['小提醒:充值后若无法观看联系客服762008732', '小福利:累计充值满300元永久免费哦', '小公告:为防止被墙我们的永久域名是www.8llh.com', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
 
 function vaidParams(userName, password) {
     var error = '';
