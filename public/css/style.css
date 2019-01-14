@@ -488,6 +488,7 @@ table select{
 .test-look button:active{
     background: #eee;
 }
+video{background:#000;width:100%;padding:30px;}
 iframe{
     width: 100%;
     border: 0;
@@ -681,6 +682,7 @@ iframe{
     .list a > div{
         height: 120px;
     }
+    video{padding: 2px;}
     .page .current-page{
         width: 100%;
         margin: 0;

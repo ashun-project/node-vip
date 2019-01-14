@@ -192,16 +192,28 @@ function getSearchKeyup (e) {
     }
 }
 
-var myiframe = document.getElementById('my-iframe');
-if (myiframe) {
-    var docum = myiframe.contentWindow.document;
-    var ev = docum.querySelector("video");
-    var width = parseInt(ev.getAttribute("width"));
-    var height = parseInt(ev.getAttribute("height")) - 50;
-    var widthcss = parseInt(ev.offsetWidth);
-    var hig = (height / width) * widthcss;
-    ev.style.height = hig+"px";
-    myiframe.style.height=hig+10+"px";
+// var myiframe = document.getElementById('my-iframe');
+// if (myiframe) {
+//     var docum = myiframe.contentWindow.document;
+//     var ev = docum.querySelector("video");
+//     var width = parseInt(ev.getAttribute("width"));
+//     var height = parseInt(ev.getAttribute("height")) - 50;
+//     var widthcss = parseInt(ev.offsetWidth);
+//     var hig = (height / width) * widthcss;
+//     ev.style.height = hig+"px";
+//     myiframe.style.height=hig+10+"px";
+// }
+
+
+var ev = document.querySelectorAll("video");
+if (ev.length) {
+    for(var j = 0; j < ev.length; j++) {
+        var width = parseInt(ev[j].getAttribute("width"));
+        var height = parseInt(ev[j].getAttribute("height")) - 50;
+        var widthcss = parseInt(ev[j].offsetWidth);
+        var hig = (height / width) * widthcss;
+        ev[j].style.height = hig+"px";
+    }
 }
 
 // 提示框
@@ -335,7 +347,7 @@ function getKeyup(e) {
 var cBody =  document.getElementsByTagName('body')[0];
 var cHost = 'http://'+window.location.host;
 var cHt = '<div class="kefu-cont"><strong>联系客服:</strong><img border="0" src="'+cHost+'/img/wei2.png" alt="vip微信图片" style="width:25px;"><span>13952470578</span>'+
-         '<img src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png" alt="vip客服qq图" class="logo_img"><a style="text-decoration:underline;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=762008732&amp;site=qq&amp;menu=yes">762008732</a></div>';
+         '<img src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png" alt="vip客服qq图" class="logo_img"><a style="text-decoration:underline;" target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=2982501851&amp;site=qq&amp;menu=yes">2982501851</a></div>';
 var cDiv = document.createElement('div');
 cDiv.innerHTML = cHt;
 cDiv.className = 'kefu';

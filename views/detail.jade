@@ -10,9 +10,10 @@ html
         meta(name="description", content='#{pageDescrition}')
         meta(name="theme-color", content="#ff5000")
         meta(name="format-detection", content="telephone=no")
+        meta(name="referrer", content="never")
         meta(name="apple-mobile-web-app-title", content="#{pageDescrition}")
         meta(name="application-name", content="#{pageDescrition}")
-        meta(name="apple-mobile-web-app-status-bar-style", content="black")
+        meta(name="apple-mobile-web-app-status-bar-style", content="black")  
         title=pageTitle
         link(rel="stylesheet", type="text/css", href="#{host}/css/style.css")
     body
@@ -45,7 +46,9 @@ html
         div.bodyer.detail
             h2=pageTitle
             -if(videoData.video)
-                iframe(id="my-iframe" data-src='<!doctype html><head><meta charset="utf-8"></head><body><style>*{box-sizing: border-box;margin:0;padding:0;}video{background:#000;width:100%;padding:30px;}@media(max-width:500px){video{padding: 2px;}}</style><video width="510" height="350" controls="controls" src="#{videoData.video}">您的浏览器不支持HTML5的 video 标签，无法为您播放！</video></body></html>', src='javascript:document.write(window.frameElement.getAttribute("data-src"))')
+                //- iframe(id="my-iframe" data-src='<!doctype html><head><meta charset="utf-8"></head><body><style>*{box-sizing: border-box;margin:0;padding:0;}video{background:#000;width:100%;padding:30px;}@media(max-width:500px){video{padding: 2px;}}</style><video width="510" height="350" controls="controls" src="#{videoData.video}">您的浏览器不支持HTML5的 video 标签，无法为您播放！</video></body></html>', src='javascript:document.write(window.frameElement.getAttribute("data-src"))')
+                each item in videoData.video
+                    video(width="510", height="350", controls="controls", src="#{item}") 您的浏览器不支持HTML5的 video 标签，无法为您播放！
             -else
                 a(href="#{host}", class="no-more" title="返回首页") 没有查询到数据，返回首页？
         div.recommend.detail

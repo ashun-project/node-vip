@@ -13,7 +13,7 @@ var poolVip = mysql.createPool({
     password: 'ashun666',
     database: 'vip'
 });
-var marqueeList = ['小提醒:充值后若无法观看联系客服762008732', '小福利:累计充值满300元永久免费哦', '小公告:为防止被墙我们的永久域名是www.8llh.com', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
+var marqueeList = ['小提醒:充值后若无法观看联系客服2982501851', '小福利:累计充值满300元永久免费哦', '小公告:为防止被墙我们的永久域名是www.8llh.com', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
 
 function vaidParams(userName, password) {
     var error = '';
@@ -163,28 +163,35 @@ function getDetail (req,res) {
                         console.log('detail1- ', err1.message);
                         // res.render('index')
                     } else {
+                        var resultO = '';
                         if (!result[0]) {
-                            result = {};
+                            resultO = {};
                         } else {
-                            result = result[0];
+                            resultO = JSON.parse(JSON.stringify(result[0]));
                         }
+                        var vio = resultO.video ? resultO.video.split(',') : [];
+                        var addStr = '?end=120';
                         if (user) {
                             testLook = {id: 'test-look', cont: '你目前还不是VIP会员，只能试看两分钟。', goVip: true};
                             if (user.endDate) {
                                 var time = new Date().getTime();
                                 var endTime = new Date(user.endDate.replace(/-/g, '/')).getTime();
                                 if (endTime > time || Number(user.total) > 300) {
-                                    result.video = result.video ? result.video.split('?end=')[0] : '';
                                     testLook = {};
+                                    addStr = '';
                                 }
                             }
                         } else {
                             testLook = {id: 'test-look', cont: '你目前还没有登入，只能试看两分钟。', goVip: ''};
                         }
+                        for(var k = 0; k < vio.length; k++) {
+                            vio[k] = vio[k] + addStr;
+                        }
+                        resultO.video = vio;
                         var listObj = {
-                            videoData: result,
-                            pageTitle: result.title ? result.title.replace(/[在线]|【在线】/, '') : '资源不存在',
-                            pageKeyword: result.title || '资源不存在',
+                            videoData: resultO,
+                            pageTitle: resultO.title ? resultO.title.replace(/[在线]|【在线】/, '') : '资源不存在',
+                            pageKeyword: resultO.title || '资源不存在',
                             pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
                             marqueeList: marqueeList,
                             recommend: recommend.slice(0,8),
