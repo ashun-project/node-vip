@@ -53,7 +53,7 @@ function getIndex(req,res) {
     var reNum = Math.floor(Math.random()*10+1) * 12;
     var sql = 'SELECT * FROM list order by createTime desc limit ' + (limitBefore + ',' + 12);
     var count = 'SELECT COUNT(*) FROM list';
-    var recommond = 'SELECT * FROM list where title like "%萝莉%" order by createTime desc limit ' + (reNum + ',' + 12);
+    var recommond = 'SELECT * FROM list order by createTime desc limit ' + (reNum + ',' + 12);
     if (titleReq) {
         sql = 'SELECT * FROM list where title like "' +'%'+ titleReq +'%'+ '" order by createTime desc limit ' + (limitBefore + ',' + 12);
         count = 'SELECT COUNT(*) FROM list where title like "' +'%'+ titleReq +'%'+ '"';
@@ -234,33 +234,48 @@ function getMine (req, res) {
 
 function getMember (req, res) {
     var user = req.session.loginUser;
-    var sql = 'SELECT * FROM list'
- 
     var listObj = {
         pageTitle: '会员充值',
         pageKeyword: '会员充值',
         pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
         user: user,
-        listData: [],
+        listData: [{}],
         balance: user ? user.balance : 0,
         host: 'http://'+req.headers['host']
     }
+    res.render('member', listObj);
+    // if (user && user.auth === '1') {
+    //     if (user.type) {
+    //         sql = sql + ' where type like "%'+ user.type +'%"';
+    //     }
+    //     poolUser.getConnection(function (err, conn) {
+    //         if (err) console.log("POOL userlist-register==> " + err);
+    //         conn.query(sql, function (err, result) {
+    //             listObj.listData = result.slice(0, 1);
+    //             res.render('member', listObj);
+    //             conn.release();
+    //         });
+    //     });
+    // } else {
+    //     res.render('member', listObj);
+    // }
+}
+//获取用户
+router.post('/getUserList', function(req, res) {
+    var user = req.session.loginUser;
+    var sql = 'SELECT * FROM list where userName = "' + req.body.name + '"';
     if (user && user.auth === '1') {
-        if (user.type) {
-            sql = sql + ' where type like "%'+ user.type +'%"';
-        }
         poolUser.getConnection(function (err, conn) {
             if (err) console.log("POOL userlist-register==> " + err);
             conn.query(sql, function (err, result) {
-                listObj.listData = result;
-                res.render('member', listObj);
+                res.json({success: '更新成功', list: result});
                 conn.release();
             });
         });
     } else {
-        res.render('member', listObj);
+        res.json({error: '没有权限', list: []});
     }
-}
+})
 
 // 更新用户列表
 router.post('/updateUser', function (req, res, next) {

@@ -263,11 +263,12 @@ function scrollNotice () {
 //开通时间
 var modalMember = document.getElementById('modal-member');
 var memberParame = {};
-function addTime(idx, total) {
+function addTime() {
     var money = {'1': 3.3, '7': 9.9, '30': 26, '180': 120, '360': 200};
-    var userName = document.getElementById('user-name-'+idx).textContent;
-    var userTime = document.getElementById('user-time-'+idx).textContent;
-    var seleltTime = document.getElementById('select-time-'+idx).value;
+    var userName = document.getElementById('user-name').textContent;
+    var userTime = document.getElementById('user-time').textContent;
+    var userTotal = document.getElementById('user-total').textContent;
+    var seleltTime = document.getElementById('select-time').value;
     var time = (Number(seleltTime)+1) * 24 * 60 * 60 * 1000;
     var startTiem = new Date().getTime() + time;
     var date = '';
@@ -280,7 +281,7 @@ function addTime(idx, total) {
     date = getFormatDate(startTiem);
     memberParame = {
         endDate: date,
-        total: money[seleltTime] + Number(total),
+        total: money[seleltTime] + Number(userTotal),
         userName: userName
     }
     modalMember.style.display = 'block';
@@ -324,17 +325,33 @@ function getFormatDate(time) {
 function memberSearch () {
     var value = document.getElementById('member-search-value').value;
     var table = document.getElementById('my-table');
-    var tr = table.querySelectorAll('tbody tr');
-    for (var i = 0; i < tr.length; i++) {
-        if (value) {
-            if (tr[i].getAttribute('name') === value) {
-                tr[i].removeAttribute('style');
-            } else {
-                tr[i].setAttribute('style', 'display:none');
+    var td = table.querySelectorAll('tbody tr td');
+    if (value) {
+        ajax({  
+            type: "post",
+            url: '/getUserList',
+            data: {name: value},
+            success: function (data) {
+                var cont = JSON.parse(data);
+                if (cont.error) {
+                    alert(cont.error)
+                } else {
+                    var searchResult = cont.list.filter(function(item){
+                        return value === item.userName;
+                    });
+                    if (searchResult[0]) {
+                        td[0].innerHTML = searchResult[0].userName;
+                        td[1].innerHTML = searchResult[0].endDate;
+                        td[2].innerHTML = searchResult[0].total;
+                    } else {
+                        alert('没有找到该用户');
+                    }
+                }
+            },
+            error: function () {
+                alert('系统异常，操作失败');
             }
-        } else {
-            tr[i].removeAttribute('style');
-        }
+        });
     }
 }
 function getKeyup(e) {

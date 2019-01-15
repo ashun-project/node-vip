@@ -2,7 +2,7 @@ var request = require("request");
 var cheerio = require('cheerio');
 const iconv = require('iconv-lite');
 var mysql = require('mysql');
-var num = 1;
+var num = 2;
 var dtNum = 0;
 var arr = [];
 var resour = 'http://mvxxoo.com';
@@ -113,7 +113,6 @@ function getList () {
 
 function listArr (list) {
     if (dtNum === list.length) {
-        console.log(list)
         console.log('end--', dtNum, 'current-time--', new Date().getTime());
         var date = new Date();
         var timeS = new Date(date.getFullYear() +'-' + (date.getMonth()+1) + '-' + date.getDate() + ' 23:00:00').getTime();
@@ -121,7 +120,7 @@ function listArr (list) {
             getList();
         }, timeS - date.getTime() + (6*60*60*1000)); // 8小时后重新调  
     } else {      
-        var sql = 'select * from defDetail where createTime =' + '"' + list[dtNum].url +'"';
+        var sql = 'select * from list where url =' + '"' + list[dtNum].url +'"';
         pool.getConnection(function (err, conn) {
             if (err) console.log("detail ==> " + err);
             conn.query(sql, function (err, rows, fields) {
@@ -138,9 +137,6 @@ function listArr (list) {
                         getAjax(encodeURI(list[dtNum].url)).then(function () {
                             var fr = $('.detail-body.photos');
                             var sr = $('script', fr);
-                            // if(dtNum === 0) {
-                            //     console.log(fr.html(), list[dtNum], sr.length)
-                            // }
                             if (sr.length) {
                                 var video = [];
                                 var img = $('p', fr).eq(0).find('img').attr('src');
@@ -190,5 +186,19 @@ getAjax('/user/login/dologin.html', 'POST').then(function () {
     ///portal/article/index/id/27.html
     // listArr([{url: '/portal/article/index/id/19123.html', title: '3423'}, {url:'/portal/article/index/id/19123.html', title: ''}, {url: '/清纯萝莉写真/19094.html', title: ''}]);
 }); // 先登入
-
+function deleteNot() {
+    var sql = 'SELECT list.* FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
+    var delSql = 'DELETE list FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
+    pool.getConnection(function (err, conn) {
+        if (err) console.log("POOL ==> " + err);
+        conn.query(sql, function (err, rows, fields) {
+            if (err) console.log('[chear ERROR] - ', err.message);
+            console.log(rows.length, '=======');
+            conn.release();
+            // getAjax('/user/login/dologin.html', 'POST').then(function () {
+            //     listArr(rows);
+            // });
+        })
+    });
+}
 // getList();

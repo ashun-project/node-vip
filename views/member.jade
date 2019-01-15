@@ -35,49 +35,50 @@ html
                 input(type="text", id="member-search-value", placeholder="用户名", onkeyup="getKeyup()")
                 button(onclick="memberSearch()") 搜&nbsp;&nbsp;索
         div.bodyer.member
-            -if(user && user.userName === 'ashunadmin')
-                table(id="my-table")
-                    thead
-                        tr
-                            th 用户
-                            th 有效期
-                            th 操作
-                    tbody
-                        each item, idx in listData
-                            tr(name="#{item.userName}")
-                                td(id="user-name-#{idx}") #{item.userName}
-                                td(id="user-time-#{idx}") #{item.endDate}
-                                td
-                                    div
-                                        select(id="select-time-#{idx}")
-                                            option(value="1") 一天
-                                            option(value="7") 一周
-                                            option(value="30") 一个月
-                                            option(value="180") 半年
-                                            option(value="360") 一年
-                                        button(onclick="addTime(#{idx},#{item.total})") 添加会员
-                p(id="list-total" style="padding-left:20px;") #{listData.length}
-            -else
-                -
-                    var total = 0;
-                    for(var i = 0; i < listData.length; i++) {
-                        total = total + (Number(listData[i].total) || 0)
-                    }
-                p 总注册人数： #{listData.length}
-                p 总充值金额： #{total}
-                p 总结算金额： #{balance || 0}
-                table(id="my-table")
-                    thead
-                        tr
-                            th 用户
-                            th 有效期
-                            th 金额
-                    tbody
-                        each item, idx in listData
-                            tr
-                                td #{item.userName}
-                                td #{item.endDate}
-                                td #{item.total}
+            //- -if(user && user.userName === 'ashunadmin')
+            table(id="my-table")
+                thead
+                    tr
+                        th 用户
+                        th 有效期
+                        th 金额
+                        th 操作
+                tbody
+                    tr
+                        td(id="user-name") #{listData[0].userName}
+                        td(id="user-time") #{listData[0].endDate}
+                        td(id="user-total") #{listData[0].total}
+                        td
+                            div
+                                select(id="select-time")
+                                    option(value="1") 一天
+                                    option(value="7") 一周
+                                    option(value="30") 一个月
+                                    option(value="180") 半年
+                                    option(value="360") 一年
+                                button(onclick="addTime()") 添加会员
+            p(id="list-total" style="padding-left:20px;") #{listData.length}
+            //- -else
+            //-     -
+            //-         var total = 0;
+            //-         for(var i = 0; i < listData.length; i++) {
+            //-             total = total + (Number(listData[i].total) || 0)
+            //-         }
+            //-     p 总注册人数： #{listData.length}
+            //-     p 总充值金额： #{total}
+            //-     p 总结算金额： #{balance || 0}
+            //-     table(id="my-table")
+            //-         thead
+            //-             tr
+            //-                 th 用户
+            //-                 th 有效期
+            //-                 th 金额
+            //-         tbody
+            //-             each item, idx in listData
+            //-                 tr
+            //-                     td #{item.userName}
+            //-                     td #{item.endDate}
+            //-                     td #{item.total}
         div.footer
             | 欢迎来到&nbsp;
             a(href="http://8llh.com", title="http://8llh.com")
