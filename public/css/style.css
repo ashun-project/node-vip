@@ -488,7 +488,7 @@ table select{
 .test-look button:active{
     background: #eee;
 }
-video{background:#000;width:100%;padding:30px;}
+video{background:#000;width:100%;padding:30px;margin-bottom: 5px;}
 iframe{
     width: 100%;
     border: 0;
