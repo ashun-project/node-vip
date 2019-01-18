@@ -117,7 +117,7 @@ function listArr (list) {
         var date = new Date();
         var timeS = new Date(date.getFullYear() +'-' + (date.getMonth()+1) + '-' + date.getDate() + ' 23:00:00').getTime();
         setTimeout(function () {
-            getList();
+            init();
         }, timeS - date.getTime() + (6*60*60*1000)); // 8小时后重新调  
     } else {      
         var sql = 'select * from list where url =' + '"' + list[dtNum].url +'"';
@@ -181,11 +181,14 @@ function listArr (list) {
         });
     }
 }
-getAjax('/user/login/dologin.html', 'POST').then(function () {
-    getList();
-    ///portal/article/index/id/27.html
-    // listArr([{url: '/portal/article/index/id/19123.html', title: '3423'}, {url:'/portal/article/index/id/19123.html', title: ''}, {url: '/清纯萝莉写真/19094.html', title: ''}]);
-}); // 先登入
+
+function init() {
+    getAjax('/user/login/dologin.html', 'POST').then(function () {
+        getList();
+        ///portal/article/index/id/27.html
+        // listArr([{url: '/portal/article/index/id/19123.html', title: '3423'}, {url:'/portal/article/index/id/19123.html', title: ''}, {url: '/清纯萝莉写真/19094.html', title: ''}]);
+    }); // 先登入
+}
 function deleteNot() {
     var sql = 'SELECT list.* FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
     var delSql = 'DELETE list FROM list LEFT JOIN defDetail ON list.createTime = defDetail.createTime WHERE defDetail.createTime is null';
@@ -201,4 +204,5 @@ function deleteNot() {
         })
     });
 }
+init();
 // getList();
