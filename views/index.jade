@@ -13,6 +13,7 @@ html
         meta(name="apple-mobile-web-app-title", content="#{pageDescrition}")
         meta(name="application-name", content="#{pageDescrition}")
         meta(name="apple-mobile-web-app-status-bar-style", content="black")
+        meta(name="referrer", content="never")
         title=pageTitle
         link(rel="stylesheet", type="text/css", href="#{host}/css/style.css")
     body
@@ -53,7 +54,7 @@ html
                     each item in listData
                         a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}在线观看", target="_blank")
                             div
-                                img(src="#{item.img}", alt="#{item.title}", onerror="this.src='./img/timg.gif'")
+                                img(src="#{item.img}", alt="#{item.title}")
                             div.list-title
                                 strong #{item.title.replace(/[在线]|【在线】/, '')}
                 -else

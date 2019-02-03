@@ -2,7 +2,7 @@ var request = require("request");
 var cheerio = require('cheerio');
 const iconv = require('iconv-lite');
 var mysql = require('mysql');
-var num = 2;
+var num = 376;
 var dtNum = 0;
 var arr = [];
 var resour = 'http://mvxxoo.com';
@@ -88,10 +88,24 @@ function getList () {
         var li = $('ul.pic-list li');
         var title = '';
         var url = '';
+        var img = '';
+        var imgD = '';
         for (var i = 0; i < li.length; i++) {
             title = $('h2 a', li[i]).text();
             url = $('h2 a', li[i]).attr('href');
-            arr.push({url:url, title: title});
+            img = '';
+            imgD = $('.fly-case-img .img-responsive', li[i]).eq(0).attr('style');
+            if (!imgD) {
+                imgD = $('.fly-case-img .layui-carousel .img-responsive', li[i]).eq(0).attr('style');
+            }
+            if (imgD) {
+                var sp = imgD.split('src=');
+                if (sp.length > 1) {
+                    img = sp[1].replace(/\"|\)/, '');
+                    if (img.indexOf('http') == -1) img = "//mvxxoo.com/upload/"+img;
+                }
+            }
+            arr.push({url:url, title: title, img: img});
         }
         if (num > 1) {
             console.log('current page is========', num);
@@ -139,7 +153,7 @@ function listArr (list) {
                             var sr = $('script', fr);
                             if (sr.length) {
                                 var video = [];
-                                var img = $('p', fr).eq(0).find('img').attr('src');
+                                // var img = $('p', fr).eq(0).find('img').attr('src');
                                 var time = new Date().getTime();
                                 var curTime = (time+dtNum).toString();
                                 for(var i = 0; i < sr.length; i++) {
@@ -156,7 +170,7 @@ function listArr (list) {
                                     var sqlD = "INSERT INTO defDetail(createTime,url,title, video) VALUES (?,?,?,?)";
                                     var infoD = [curTime, list[dtNum].url, list[dtNum].title, video.join(',')];
                                     var sqlL = "INSERT INTO list(createTime,url,title,img) VALUES (?,?,?,?)";
-                                    var info = [curTime, list[dtNum].url, list[dtNum].title, img];
+                                    var info = [curTime, list[dtNum].url, list[dtNum].title, list[dtNum].img];
                                     conn.query(sqlL, info, function (err, rows, fields) {});
                                     conn.query(sqlD, infoD, function (err, rows, fields) {
                                         if (err) {
