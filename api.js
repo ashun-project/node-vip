@@ -15,6 +15,29 @@ var poolVip = mysql.createPool({
 });
 var marqueeList = ['小提醒:充值后若无法观看联系客服2982501851', '小福利:累计充值满300元永久免费哦', '小公告:为防止被墙我们的永久域名是www.8llh.com', '小提示:找不到喜欢的吗？搜索有你想要哦', '小条件:只有充值后才能观看完整版哦'];
 
+function getClientIP(req) {
+    return req.headers['x-forwarded-for'] || // 判断是否有反向代理 IP
+        req.connection.remoteAddress || // 判断 connection 的远程 IP
+        req.socket.remoteAddress || // 判断后端的 socket 的 IP
+        req.connection.socket.remoteAddress;
+};
+function setRecommend(req, recommend, integral) {
+    var searchSql = 'SELECT * FROM list where userName = "'+ recommend + '"';
+    var ip = getClientIP(req);
+    poolUser.getConnection(function (err, conn) {
+        conn.query(searchSql, function (err3, result3) {
+            if (result3[0]) {
+                var userip = result3[0].ip ? result3[0].ip.split(',') : [];
+                if(userip.indexOf(ip) < 0) {
+                    userip.push(ip);
+                    var updateSql = 'update list set ip = "'+ userip.join(',') +'",integral = "'+ ((Number(result3[0].integral)||0)+integral) +'" where userName = "'+ recommend + '"';
+                    conn.query(updateSql, function (err, result) {});
+                }
+            }
+            conn.release();
+        });
+    });
+}
 function vaidParams(userName, password) {
     var error = '';
     if (!userName || !password) {
@@ -296,6 +319,7 @@ router.post('/updateUser', function (req, res, next) {
 });
 
 router.post('/register', function (req, res) {
+    var recommend =  req.body.recommend;
     var userName = req.body.userName? req.body.userName.replace(/\s+/g, "") : '';
     var err = vaidParams(userName, req.body.password);
     var sql = 'SELECT * FROM list where userName = "'+ userName + '"';
@@ -320,6 +344,9 @@ router.post('/register', function (req, res) {
                         }  else {
                             req.session.loginUser = {userName: userName};
                             res.json({userName: userName});
+                        }
+                        if (recommend) {
+                            // setRecommend(req, recommend, 2);
                         }
                         conn.release();
                     });

@@ -131,6 +131,10 @@ function vaidParams(obj, url) {
         alert(error);
         return;
     }
+    var searchResult = window.location.search;
+    if (searchResult) {
+        obj.recommend = searchResult.split('?recommend=')[1];
+    }
     ajax({  
         type: "post",
         url: url,
