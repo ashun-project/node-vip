@@ -54,7 +54,7 @@ html
                     each item in listData
                         a(href="#{host+'/detail/'+item.createTime}", title="#{item.title}在线观看", target="_blank")
                             div
-                                img(src="#{item.img}", alt="#{item.title}")
+                                img(src="#{item.img.replace(/http\:\/\/mvxxoo\.com|\/\/mvxxoo\.com/, '/imgapi')}", alt="#{item.title}")
                             div.list-title
                                 strong #{item.title.replace(/[在线]|【在线】/, '')}
                 -else
