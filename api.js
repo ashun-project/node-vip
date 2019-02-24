@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var encryption = require('./md5');
 var poolUser = mysql.createPool({
     host: 'localhost',
     user: 'root',
@@ -30,6 +31,7 @@ function setRecommend(req, recommend, integral) {
                 var userip = result3[0].ip ? result3[0].ip.split(',') : [];
                 if(userip.indexOf(ip) < 0) {
                     userip.push(ip);
+                    // 这块会有bug  IP应该单独一个表，一个IP只能计算推广一次
                     var updateSql = 'update list set ip = "'+ userip.join(',') +'",integral = "'+ ((Number(result3[0].integral)||0)+integral) +'" where userName = "'+ recommend + '"';
                     conn.query(updateSql, function (err, result) {});
                 }
@@ -37,6 +39,16 @@ function setRecommend(req, recommend, integral) {
             conn.release();
         });
     });
+}
+function getFormatDate(time) {
+    var date = new Date(time);
+    var str = '';
+    var dateArr = [date.getFullYear(), '-', date.getMonth() + 1, '-', date.getDate()];
+    dateArr.forEach(item => {
+        if (typeof item === 'number' && item < 10) item = '0' + item;
+        str += item;
+    });
+    return str;
 }
 function vaidParams(userName, password) {
     var error = '';
@@ -64,6 +76,8 @@ router.get('/:page?/:title?', function (req,res) {
             getMine(req,res);
         } else if (req.params.page === 'user' && req.params.title === 'member') {
             getMember(req,res);
+        } else if (req.params.page === 'user' && req.params.title === 'kami'){
+            getKami(req,res);
         } else {
             getIndex(req,res);
         }
@@ -73,6 +87,7 @@ function getIndex(req,res) {
     var currentReq = Number(req.params.page) || 1;
     var titleReq = req.params.title || '';
     var limitBefore = ((currentReq - 1) * 12);
+    // 随机数有问题  Math.floor(Math.random()*(1 - 100) + 100);
     var reNum = Math.floor(Math.random()*10+1) * 12;
     var sql = 'SELECT * FROM list order by createTime desc limit ' + (limitBefore + ',' + 12);
     var count = 'SELECT COUNT(*) FROM list';
@@ -171,6 +186,7 @@ function getDetail (req,res) {
     var testLook = {};
     var user = req.session.loginUser;
     var sql = 'SELECT * FROM defDetail where createTime = ' + '"' + req.params.title +'"';
+    // 随机数有问题  Math.floor(Math.random()*(1 - 100) + 100);
     var reNum = Math.floor(Math.random()*20+1) * 12;
     var recommond = 'SELECT * FROM list order by createTime desc limit ' + (reNum + ',' + 12);
     poolVip.getConnection(function (err, conn) {
@@ -248,6 +264,7 @@ function getMine (req, res) {
         pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
         userName: user.userName || '无',
         userLevel: userLevel,
+        endDate: user.endDate,
         total: user.total || '0',
         expiryTime: expiryTime,
         host: 'http://'+req.headers['host']
@@ -267,22 +284,34 @@ function getMember (req, res) {
         host: 'http://'+req.headers['host']
     }
     res.render('member', listObj);
-    // if (user && user.auth === '1') {
-    //     if (user.type) {
-    //         sql = sql + ' where type like "%'+ user.type +'%"';
-    //     }
-    //     poolUser.getConnection(function (err, conn) {
-    //         if (err) console.log("POOL userlist-register==> " + err);
-    //         conn.query(sql, function (err, result) {
-    //             listObj.listData = result.slice(0, 1);
-    //             res.render('member', listObj);
-    //             conn.release();
-    //         });
-    //     });
-    // } else {
-    //     res.render('member', listObj);
-    // }
 }
+
+function getKami (req, res) {
+    var user = req.session.loginUser;
+    var userList = ['ashunadmin'];
+    var sql = 'SELECT * FROM kami';
+    var listObj = {
+        listData: [],
+        pageTitle: '卡密',
+        pageKeyword: '卡密',
+        pageDescrition: '网红萝莉有你，萝莉吧给你想要哦',
+        user: user,
+        host: 'http://'+req.headers['host']
+    }
+    if(user && userList.indexOf(user.userName) > -1) {
+        poolUser.getConnection(function (err, conn) {
+            if (err) console.log("POOL userlist-register==> " + err);
+            conn.query(sql, function (err, result) {
+                listObj.listData = result;
+                res.render('kami', listObj);
+                conn.release();
+            });
+        });
+    } else {
+        res.render('kami', listObj);
+    }
+} 
+
 //获取用户
 router.post('/getUserList', function(req, res) {
     var user = req.session.loginUser;
@@ -315,6 +344,89 @@ router.post('/updateUser', function (req, res, next) {
         });
     } else {
         res.json({error: '更新失败'});
+    }
+});
+// 卡密更新用户
+router.post('/kamiUpdateUser', function (req, res, next) {
+    var kami = req.body.kami;
+    var login = req.session.loginUser;
+    var sql = 'SELECT * FROM kami where kami = "' + kami + '"';
+    if (kami.length < 5) {
+        res.json({error: '无效卡密'});
+        return;
+    }
+    if (login) {
+        poolUser.getConnection(function (err, conn) {
+            if (err) console.log("POOL userlist-register==> " + err);
+            conn.query(sql, function (err, result) {
+                if(result[0]) {
+                    var time = (Number(result[0].day)+1) * 24 * 60 * 60 * 1000;
+                    var startTiem = new Date().getTime() + time;
+                    var date = '';
+                    var total = (Number(req.body.total) || 0)+ Number(result[0].money);
+                    if (req.body.date) {
+                        if (new Date(req.body.date).getTime() > new Date().getTime()) {
+                            startTiem = new Date(req.body.date).getTime() + time;
+                        }
+                    }
+                    date = getFormatDate(startTiem);
+                    var upSql = 'update list set endDate = "'+ date +'",total = "'+ total +'" where userName = "'+ login.userName + '"';
+                    var delSql = 'delete from kami where kami = "' + kami + '"';
+                    var infoSql = 'INSERT INTO usedkami(kami,ip,user,agent) VALUES (?,?,?,?)';
+                    conn.query(upSql, function (err, result1) {
+                        req.session.loginUser.endDate = date;
+                        req.session.loginUser.total = total;
+                        conn.query(delSql, function (err, result2) {});
+                        conn.query(infoSql, [result[0].kami, getClientIP(req), login.userName, result[0].agent], function (err, result2) {});
+                        res.json({success: '更新成功'});
+                        conn.release(); 
+                    });
+                } else {
+                    res.json({error: '无效卡密'});
+                    conn.release();
+                }
+            });
+        });
+    } else {
+        res.json({error: '请重新登入'});
+    }
+});
+router.post('/addKami', function (req, res) {
+    var login = req.session.loginUser;
+    var addNum = Number(req.body.addNum) || 1;
+    var day = req.body.day;
+    var money = req.body.money;
+    var agent = req.body.agent;
+    var createTime = new Date().getTime();
+    var userList = ['ashunadmin'];
+    if(login && userList.indexOf(login.userName) > -1) {
+        var arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        // 随机产生
+        var info = [];
+        for (var j = 0; j < addNum; j++) {
+            var range = Math.round(Math.random() * 5) + 32;
+            var str = '';
+            for(var i=0; i<range; i++){
+                pos = Math.round(Math.random() * (arr.length-1));
+                str += arr[pos];
+            }
+            info.push([encryption.md5(createTime+j+'ashunadmin'+str)+arr[range], day, money, agent, createTime]);
+        }
+        var sqlInfo = "INSERT INTO kami(kami,day,money,agent,createTime) VALUES ?";
+        poolUser.getConnection(function (err, conn) {
+            if (err) console.log("POOL register==> " + err);
+            conn.query(sqlInfo, [info], function (err, result) {
+                if (err) {
+                    console.log('sqlInfo - ', err.message);
+                    res.json({error: '系统出错请重新操作'});
+                } else {
+                    res.json({list: info});
+                }
+                conn.release();
+            });
+        });
+    } else {
+        res.json({error: '身份错误'});
     }
 });
 

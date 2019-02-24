@@ -326,6 +326,39 @@ function getFormatDate(time) {
     });
     return str;
 }
+var goExchangeing = '1';
+function goExchange() {
+    var value = document.getElementById('kami-value').value;
+    if (value) {
+        var userDate = document.getElementById('user-date').getAttribute('data');
+        var userTotal = document.getElementById('user-total').getAttribute('data');
+        if (goExchangeing == '2') {
+            return;
+        }
+        goExchangeing = '2';
+        ajax({  
+            type: "post",
+            url: '/kamiUpdateUser',
+            data: {kami: value, date: userDate, total: userTotal},
+            success: function (data) {
+                var cont = JSON.parse(data);
+                if (cont.error) {
+                    alert(cont.error)
+                    goExchangeing = '1';
+                } else {
+                    alert('兑换成功');
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert('系统异常，操作失败');
+                goExchangeing = '1';
+            }
+        });
+    } else {
+        alert('请输入卡密');
+    }
+}
 function memberSearch () {
     var value = document.getElementById('member-search-value').value;
     var table = document.getElementById('my-table');

@@ -39,11 +39,15 @@ html
                 span#user-level #{userLevel}
             p
                 span.label 到期时间:
-                span#user-date #{expiryTime}
+                span#user-date(data="#{endDate}") #{expiryTime}
             p
                 span.label 累计充值:
-                span#user-total #{total}&nbsp;
-                    font (满300永久免费)    
+                span#user-total(data="#{total}") #{total}&nbsp;
+                    font (满300永久免费)
+            div.kami
+                input(type="text", id="kami-value" placeholder="请输入卡密")
+                button(onclick="goExchange()") 兑换VIP
+            font 联系客服购买卡密，随时兑换,随时观看
         div.tab
             div.tab-menu
                 a.shuoming(href="#shuoming") 本站说明
@@ -85,11 +89,15 @@ html
                         span 13952470578                   
                         img.logo_img(src="http://pub.idqqimg.com/wpa/images/counseling_style_51.png", alt="vip客服qq图")
                         a(style="text-decoration:underline;", target="_blank", href="http://wpa.qq.com/msgrd?v=3&uin=2982501851&site=qq&menu=yes", title="vipQQ客服链接", rel="nofollow") 2982501851
-                    font(color="red") 建议加好友，联系客服转账（以免不懂操作）
+                    font(color="red") 建议联系客服购买卡密兑换，可随时自助开通
                 div.er
                     div.chongzhi#chongzhi
                         font(color="#186209") 
-                            strong 微信扫描下方二维码付款--请备注用户名
+                            strong 方式1:    
+                            | 联系客服购买卡密(点击兑换VIP)进行兑换
+                            br
+                            strong 方式2:    
+                            | 微信扫描下面二维码付款，请备注用户名
                         br
                         img(src="#{host+'/img/er.png'}", alt="收款二维码")
                         div(style=" color: rgb(212, 141, 9);font-size: 18px;font-weight: bold;")
@@ -106,6 +114,9 @@ html
                         |   4、客服开通后（点击用户名旁边的刷新按钮）
                         br
                         |   5、没开通或有其他问题（请联系客服）
+                        br
+                        font(color="#186209") 
+                            strong 或联系客服购买卡密，进行兑换
                     
         div.footer
             | 欢迎来到&nbsp;
